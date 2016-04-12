@@ -1,0 +1,3 @@
+rm -rf backup.tgz;
+gulp clean;
+tar zcvf backup.tgz --exclude='node_modules' *

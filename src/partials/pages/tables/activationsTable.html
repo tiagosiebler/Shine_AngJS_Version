@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+	<!-- Default panel contents -->	
+    <div class="panel-heading clearfix">
+		<b>All Activations ({{total}}{{isFiltered}})</b>
+		<two-button-bar showFilter="showFilter" tableParams="tableParams"></two-button-bar>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table ng-table="tableParams" class="table table-striped table-condensed table-hover" show-filter="showFilter" ng-init="getactivations()">
+			    <tr ng-repeat="activation in $data track by activation.id">
+			        <td title="'Application'" filter="{ app_id: 'partials/pages/tables/customFilters/appIdSelect.html'}" sortable="'app_id'" >{{getAppName(activation.app_id)}}</td>
+			        <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">{{activation.email}}</td>
+			        <td title="'Activation Date'" filter="{ dt: 'text'}" sortable="'dt'">{{activation.dt}}</td>
+			        <td title="'IP'" filter="{ ip: 'text'}" sortable="'ip'"><a href="{{activation.ip}}">{{activation.ip}}</a></td>
+			        <td title="'Tool Version'" filter="{ version_tool: 'text'}" sortable="'version_tool'">{{activation.version_tool}}</td>
+			        <td title="'Payload Version'" filter="{ version_payload: 'text'}" sortable="'version_payload'">{{activation.version_payload}}</td>
+			        <td title="'Req Location'" filter="{ request_location: 'text'}" sortable="'request_location'">{{activation.request_location}}</td>
+			        <td ng-title="Hover for details" title="'Status'" filter="{ activation_status: 'select'}" filter-data="status()" sortable="'fail_reason'">{{activation.activation_status}}</td>
+			        <td><a href="#/activation?id={{activation.id}}"><a href="javascript:console.log('open thsis in modal window');//#/activation?id={{activation.id}}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+			     </tr>
+			</table>
+		</div>
+	</div>
+</div>

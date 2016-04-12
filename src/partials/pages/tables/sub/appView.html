@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{newApp}} {{app.id}} - {{app.name}}
+	    <button type="button" class="close pull-right" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+		</h3>
+</div>
+<div class="modal-body">
+	<form>
+		<h3>General Stuff</h3>
+		<div class="form-group">
+			<label for="name">App Name</label>
+			<input type="text" class="form-control" name="name" id="name" ng-model="app.name">
+		</div>
+		<div class="form-group">
+			<label for="bundle_name">Bundle Name</label>
+			<input type="text" class="form-control" name="bundle_name" id="bundle_name" ng-model="app.bundle_name">
+		</div>
+		<div class="form-group">
+			<label for="tweet_terms">Twitter keywords to search for</label>
+			<input type="text" class="form-control" name="tweet_terms" id="tweet_terms" ng-model="app.tweet_terms" aria-describedby="TweetHelpBlock">
+            <span id="TweetHelpBlock" class="help-block">Seperate with commas</span>
+		</div>
+		
+		<h3>Licensing Engine</h3>
+		<div class="form-group">
+			<label for="engine_class_name">License Engine Class Name</label>
+			<input type="text" class="form-control" name="engine_class_name" id="engine_class_name" ng-model="app.engine_class_name" aria-describedby="ECNHelpBlock">
+			<span id="ECNHelpBlock" class="help-block">The PHP class name of your licensing engine. Available engines are: {{available_engines}}</span>
+		</div>
+		
+		<h3>Thank you email section</h3>
+		<div class="form-group">
+			<label for="from_email">From</label>
+			<input type="text" class="form-control" name="from_email" id="from_email" ng-model="app.from_email" aria-describedby="FromHelpBlock">
+			<span id="FromHelpBlock" class="help-block">Don't think this does anything right now...</span>
+		</div>
+		<div class="form-group">
+			<label for="email_subject">Subject</label>
+			<input type="text" class="form-control" name="email_subject" id="email_subject" ng-model="app.email_subject">
+		</div>
+		<div class="form-group">
+			<md-input-container flex>
+				<label for="email_body">Body</label>
+				<textarea type="text" class="form-control" name="email_body" id="email_body" ng-model="app.email_body" ng-keydown="autoExpand($event)" ng-init="onShow()"  aria-describedby="bodyHelpBlock"></textarea>
+				<span id="bodyHelpBlock" class="help-block"><strong>Available Substitutions</strong>: {first_name}, {last_name}, {payer_email}, {license}, {serial_number}, {1daylink}, {3daylink}, {1weeklink}, {foreverlink}. Add your own in includes/class.objects.php getBody().</span>
+			</md-input-container>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(app)">{{saveLabel}}</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

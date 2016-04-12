@@ -1,0 +1,12 @@
+<div class="row top-space" ng-controller="reportingCtrl" ng-init='prepareGraphs()'>
+  <div class="col-sm-6 col-md-4" ng-repeat="graph in graphs">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="text-center">{{graph.desc}}</p>
+      </div>
+	  <a href="" ng-click="viewGraph(graph.lg,graph.desc)">
+	      <img ng-src="{{graph.sm}}" alt="...">
+	  </a>
+    </div>
+  </div>
+</div>

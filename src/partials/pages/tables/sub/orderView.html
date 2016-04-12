@@ -1,0 +1,102 @@
+<div class="modal-header" ng-class="{deactivated: deactivated, blacklisted: order.blacklisted==1}">
+    <h3 class="modal-title">{{newLabel}}{{order.id}} - {{order.first_name}} {{order.last_name}} <dummy class="" ng-show="isDeactivated()"><span class="glyphicon glyphicon-warning-sign"></span> account deactivated!</dummy>
+	    <button type="button" class="close pull-right" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+	</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-sm-4" id="right">
+			<ul>
+				<li>
+					<div style="display:none;" ng-init="getUserDetails()"></div>
+					<div class="panel panel-default">
+						<div class="panel-heading">Key Details</div>
+						<div class="panel-body">
+							<table class="table table-striped table-condensed table-hover">
+								<tr><td> Expiry Date </td> <td> {{ expiryDt }} </td></tr>
+								<tr><td> Activation Count </td> <td> {{ count.act }} </td></tr>
+								<tr><td> CID Count </td> <td> {{ count.CID }} </td></tr>
+								<!--<tr><td> Rapportive</td> <td> {{ todo }} </td></tr>-->
+							</table>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">Related Orders</div>
+						<div class="panel-body">
+							<table class="table table-striped table-condensed table-hover">
+								<tr ng-repeat="relOrder in relatedOrders">
+									<td><a href="" ng-click="openOrder(relOrder.id)">{{relOrder.dt}}</a></td>
+									<td>{{relOrder.app_name}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">License Details</div>
+						<div class="panel-body">
+							<div class="well well-sm">
+								Email: {{order.payer_email}}
+								License Key: {{order.license}}
+							</div>
+						</div>
+					</div>
+
+				</li>
+			</ul>
+		</div>
+		<div class="col-sm-8" id="left">
+			<div class="panel panel-default" ng-init="getAccountDetails()">
+				<!-- all apps-->
+			    <div class="panel-heading clearfix">
+			      	<b>Order Details</b>
+			        <div class="btn-group pull-right">
+						<a href="" ng-click="viewMember()" class="btn btn-default btn-xs" title="View Member"><span class="glyphicon glyphicon-user"></span> Member</a>
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="glyphicon glyphicon-menu-hamburger"></span>
+							<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-left pull-left" style="min-width:0px;padding:0px">
+								<li><a ng-click="resendConfirmation()" class="btn btn-default btn-xs" aria-pressed="false" autocomplete="off" confirm="This will resend the confirmation email to the customer, are you sure?"><span class="glyphicon glyphicon-envelope"></span> Resend confirmation email</a></li>
+								<li><a ng-click="regenerateKey()" class="btn btn-default btn-xs pull-left" aria-pressed="false" autocomplete="off" confirm="This will regenerate this customer's activation key, are you sure?"><span class="glyphicon glyphicon-repeat"></span> Regenerate License</a></li>
+								<li ng-show="isDeactivated()"><a ng-click="setDeactivated(false)" class="btn btn-default btn-xs" aria-pressed="false" autocomplete="off" confirm="Are you sure you want to reactivate this customer's account?"><span class="glyphicon glyphicon-check"></span> Reactivate Account</a></li>
+								<li ng-hide="isDeactivated()"><a ng-click="setDeactivated(true)" class="btn btn-default btn-xs" aria-pressed="false" autocomplete="off" confirm="Are you sure you want to deactivate this customer's account?"><span class="glyphicon glyphicon-lock"></span> Deactivate Account</a></li>
+								<li><a ng-click="deleteOrder()" class="btn btn-default btn-xs pull-left" aria-pressed="false" autocomplete="off" confirm="This action currently cannot be undone. Are you sure?"><span class="glyphicon glyphicon-remove"></span> Delete Order</a></li>
+							</ul>
+						</div>
+						<a href="" ng-click="refresh()" class="btn btn-default btn-xs" title="Refresh"><span class="glyphicon glyphicon-refresh"></span></a>
+			     	</div>
+					
+			     </div>
+				<div class="panel-body">
+					<!-- table -->
+					<table class="table table-striped table-condensed table-hover">
+						<tr ng-repeat="(key, value) in order">
+						  <td> {{key}} </td> <td> {{ value }} </td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="panel panel-default" ng-init="getApplications()">
+				<!-- all apps-->
+			    <div class="panel-heading clearfix">
+			      	<b>Member Nodes</b></div>
+				<div class="panel-body">
+					<form name="myForm">
+						<div class="form-group">
+							<md-input-container flex>
+								<textarea type="text" class="form-control" name="myComments" id="myComments" ng-model="myComments" ng-keydown="autoExpand($event)" ng-init="onShow()" aria-describedby="bodyHelpBlock">										
+								</textarea>
+							</md-input-container>
+							<span id="bodyHelpBlock" class="help-block">These notes are not visible to customers. Notes retrieved from member, not order</span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+<button class="btn btn-default pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="revertNotes()">Revert</button>
+<button class="btn btn-success pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="saveNotes()">Save</button>
+</div>

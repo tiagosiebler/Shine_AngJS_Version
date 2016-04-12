@@ -1,0 +1,48 @@
+<render-navbar></render-navbar>
+<div id="page-content-wrapper">
+	<div class="page-content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-8" id="left">
+					<!--All apps -->
+					<activations-table></activations-table>
+				</div>
+				<div class="col-sm-4" id="right">
+					<ul>
+						<li>
+							<form role="search">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Search members by name, email, IP, CID">
+								</div>
+								<button type="submit" class="btn btn-default" style="display:none;">Submit</button>
+							</form>
+						</li>
+						<div style="display:none;" ng-init="getGraphs('apw,apm')"></div>
+						<li>
+							<div class="panel panel-default">
+								<div class="panel-heading">{{graphs.apw.desc}}</div>
+								<div class="panel-body">
+									<a ng-click="viewGraph(graphs.apw.lg,graphs.apw.desc)" href=""> 
+										<img ng-src="{{graphs.apw.sm}}" style="width:100%"></img>
+									</a>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="panel panel-default">
+								<div class="panel-heading">{{graphs.apm.desc}}</div>
+								<div class="panel-body">
+									<a ng-click="viewGraph(graphs.apm.lg,graphs.apm.desc)" href=""> 
+										<img ng-src="{{graphs.apm.sm}}" style="width:100%"></img>
+									</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!-- /.page-content -->

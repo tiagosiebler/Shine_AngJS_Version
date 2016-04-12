@@ -1,0 +1,66 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/dashboard">HOME</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('/versions')}"><a href="#/versions">Versions</a></li>
+        <li ng-class="{ active: isActive('/orders')}"><a href="#/orders">Orders</a></li>
+        <li ng-class="{ active: isActive('/members')}"><a href="#/members">Customers</a></li>
+        <li ng-class="{ active: isActive('/activations')}"><a href="#/activations">Activations</a></li>
+        <li ng-class="{ active: isActive('/logs')}"><a href="#/logs">Logs <span class="badge">{{nums.logs}}</span></a></li>
+        <li ng-class="{ active: isActive('/feedback')}"><a href="">Feedback <span class="badge">{{nums.feedback}}</span></a></li>
+        <li ng-class="{ active: isActive('/reports')}"><a href="#/reports">Reporting</a></li>
+	
+        <!--<li class="dropdown" ng-class="{ active: isActive('/orders')}">
+          <a href="#/orders" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orders <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#/members">Customers</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>-->
+
+      </ul>
+
+	  
+      <ul class="nav navbar-nav navbar-right">
+		  <!--
+		<li>	      
+			<form class="nav navbar-form navbar-right" role="search">
+			    <div class="form-group">
+			      <input type="text" class="form-control" placeholder="Search">
+			    </div>
+			    <button type="submit" class="btn btn-default" style="display:none;">Submit</button>
+			</form>
+	  	</li>-->
+        <li><a href="" ng-click="logout();" title="Logout ({{uid}})">Logout</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<!--
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#/">Home</a>
+        </li>
+        <li class="active"><a href="#">Orders</a></li>
+        <li><a href="#">Members</a></li>
+        <li><a href="#">Activations</a></li>
+        <li><a href="#">Logs</a></li>
+        <li><a href="#">Feedback (0)</a></li>
+        <li><a href="#" class="active">Tweets (0)</a></li>
+    </ul>
+</div>-->

@@ -1,0 +1,4 @@
+<select id="filterapp_id" class="form-control" 
+    ng-model="tableParams.filter()['app_id']" ng-init="this.option[0].selected"  
+    ng-options="app.id as app.title for app in appList()">
+</select>

@@ -1,0 +1,135 @@
+<div class="modal-header" ng-class="{deactivated: deactivated, blacklisted: blacklisted}">
+    <h3 class="modal-title">{{newLabel}}{{member.id}} - {{member.member_name}} 
+		<dummy class="" ng-show="isDeactivated()"><span class="glyphicon glyphicon-warning-sign"></span> deactivated <span class="glyphicon glyphicon-warning-sign"></span></dummy>
+		<dummy class="" ng-show="isBlacklisted()"><span class="glyphicon glyphicon-alert"></span> BLACKLISTED <span class="glyphicon glyphicon-alert"></span></dummy>
+	    <button type="button" class="close pull-right" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+	</h3>
+</div>
+<div class="modal-body">
+		<div class="row">
+			<div class="col-sm-4" id="right">
+				<ul>
+					<li>
+						<div style="display:none;" ng-init="getUserDetails()"></div>
+						<div class="panel panel-default">
+							<div class="panel-heading">Key Details</div>
+							<div class="panel-body">
+
+								<table class="table table-striped table-condensed table-hover">
+									<tr><td> Member Since </td> <td> {{ member.member_since | cleanDt | date:'d MMM yyyy' }} </td></tr>
+									<tr><td> Expiry Date </td> <td> {{ member.expiry_date | cleanDt | date:'d MMM yyyy' }} </td></tr>
+									<tr><td> Orders </td> <td> {{ relatedOrders.length }} </td></tr>
+									<tr><td> Last Purchase </td> <td> {{ member.last_purchase | cleanDt | date:'d MMM yyyy' }} </td></tr>
+									<tr><td> Estimated Revenue </td> <td> {{ member.extension_count * 4.60 | currency:'£' }} </td></tr>
+									<tr><td> Activations </td> <td> {{ member.activation_count }} </td></tr>
+									<tr><td> Last Activation </td> <td> {{ member.last_activation | cleanDt | date:'d MMM yyyy' }} </td></tr>
+								</table>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">License Details</div>
+							<div class="panel-body">
+								<div class="well well-sm">
+									Email: {{member.member_email}}
+									License Key: {{member.member_act_key}}
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">Related Orders</div>
+							<div class="panel-body">
+								<table class="table table-striped table-condensed table-hover">
+									<tr ng-repeat="relOrder in relatedOrders">
+										<td><a href="" ng-click="openOrder(relOrder.id)">{{relOrder.dt}}</a></td>
+										<td>{{relOrder.app_name}}</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-8" id="left">
+				<div class="panel panel-default" ng-init="getApplications()">
+					<!-- all apps-->
+				    <div class="panel-heading clearfix">
+				      	<b>Member Details</b>
+						<!-- Buttons -->
+				        <div class="btn-group pull-right">
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-menu-hamburger"></span>
+								<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu dropdown-menu-left pull-left" style="min-width:0px;padding:0px">
+									<li><a ng-click="editExpiry()" class="btn btn-default btn-xs pull-left" aria-pressed="false" autocomplete="off"><span class="glyphicon glyphicon-edit"></span> Adjust Expiry Date</a></li>
+									<li><a ng-click="transferCredits()" class="btn btn-default btn-xs pull-left" aria-pressed="false" autocomplete="off"><span class="glyphicon glyphicon-share"></span> Transfer Credits</a></li>
+									<li><a ng-click="splitCredits()" class="btn btn-default btn-xs pull-left" aria-pressed="false" autocomplete="off"><span class="glyphicon glyphicon-resize-full"></span> Split Credits</a></li>
+									<li><a ng-click="resendConfirmation()" class="btn btn-default btn-xs" aria-pressed="false" autocomplete="off" confirm="This will resend the confirmation email to the customer, are you sure?"><span class="glyphicon glyphicon-envelope"></span> Resend confirmation email</a></li>
+									<li><a ng-click="regenerateKey()" class="btn btn-default btn-xs pull-left" aria-pressed="false" autocomplete="off" confirm="This will regenerate this customer's activation key, are you sure?"><span class="glyphicon glyphicon-repeat"></span> Regenerate License</a></li>
+									<li><a ng-click="resetCID()" class="btn btn-default btn-xs pull-left" aria-pressed="false" autocomplete="off" confirm="This will reset this customer's CID key, are you sure?"><span class="glyphicon glyphicon-repeat"></span> Reset CID</a></li>
+									<li ng-show="isDeactivated()"><a ng-click="setDeactivated(false)" class="btn btn-default btn-xs" aria-pressed="false" autocomplete="off" confirm="Are you sure you want to reactivate this customer's account?"><span class="glyphicon glyphicon-check"></span> Reactivate Account</a></li>
+									<li ng-hide="isDeactivated()"><a ng-click="setDeactivated(true)" class="btn btn-default btn-xs" aria-pressed="false" autocomplete="off" confirm="Are you sure you want to deactivate this customer's account?"><span class="glyphicon glyphicon-lock"></span> Deactivate Account</a></li>
+								</ul>
+							</div>
+							<a href="" ng-click="refresh()" class="btn btn-default btn-xs" title="Refresh"><span class="glyphicon glyphicon-refresh"></span></a>
+				     	</div>
+						
+				     </div>
+					<div class="panel-body">
+						<!-- table -->
+						<table class="table table-striped table-condensed table-hover">
+							<tr><th><strong>Full name</strong></th><td>{{member.member_name}}</td></tr>
+							<tr><th><strong>Email</strong></th><td>{{member.member_email}}</td></tr>
+							<tr><th><strong>License key</strong></th><td>{{member.member_act_key}}</td></tr>
+							<tr><th><strong>Expiry date</strong></th><td>{{member.expiry_date}}</td></tr>
+							<tr><th><strong>Main CID</strong></th><td>{{member.primary_CID}}</td></tr>
+							<tr><th><strong>Max CIDs allowed</strong></th><td>{{member.max_CIDs}}</td></tr>
+							<tr><th><strong>MD5 Immune</strong></th><td>{{member.md5_immune}}</td></tr>
+							<tr><th><strong>Member IP</strong></th><td>{{member.member_IP}}</td></tr>
+							<tr><th><strong>Activation Count</strong></th><td>{{member.activation_count}}</td></tr>
+							<tr><th><strong>Game Version</strong></th><td>{{member.version_game}}</td></tr>
+							<tr><th><strong>Tool Version</strong></th><td>{{member.version_tool}}</td></tr>
+							<tr><th><strong>Plugin Version</strong></th><td>{{member.version_payload}}</td></tr>
+							<tr><th><strong>Promotion Accepted</strong></th><td>{{member.promotion_accepted}}</td></tr>
+							<tr><th><strong>Promotion Last Accepted</strong></th><td>{{member.promotion_last_accepted}}</td></tr>
+							<tr><th><strong>Deactivated</strong></th><td>{{member.deactivated}}</td></tr>
+							<tr><th><strong>Blacklisted</strong></th><td>{{member.blacklisted}}</td></tr>
+							<tr><th><strong>Message to user</strong></th><td>{{member.msg_to_user}}</td></tr>
+							<tr><th><strong>Message seen</strong></th><td>{{member.msg_seen}}</td></tr>
+							<tr><th><strong>Referred by</strong></th><td><a href=""?>get name for ID {{member.refID}}. If 0, show unclickable 0. member.php?id=member.refID</a></td></tr>
+						</table>
+					</div>
+				</div>
+				<div class="panel panel-default" ng-init="getApplications()">
+					<!-- all apps-->
+				    <div class="panel-heading clearfix">
+				      	<b>Member Nodes</b></div>
+					<div class="panel-body">
+						<!-- table -->
+						<form name="myForm">
+							<div class="form-group">
+								<md-input-container flex>
+									<textarea type="text" class="form-control" name="myComments" id="myComments" ng-model="myComments" ng-keydown="autoExpand($event)" ng-init="onShow()" aria-describedby="bodyHelpBlock">										
+									</textarea>
+								</md-input-container>
+								<span id="bodyHelpBlock" class="help-block">These notes are not visible to customers. Notes retrieved from member, not order</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+	</div>
+	<!--<form>
+		<h3>General Stuff</h3>
+		<div class="form-group">
+			<label for="name">App Name</label>
+			<input type="text" class="form-control" name="name" id="name" ng-model="app.name">
+		</div>
+	</form>-->
+</div>
+<div class="modal-footer">
+<button class="btn btn-default pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="revertNotes()">Revert</button>
+<button class="btn btn-success pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="saveNotes()">Save</button>
+</div>

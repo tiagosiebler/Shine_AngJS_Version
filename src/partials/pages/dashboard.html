@@ -1,0 +1,98 @@
+<render-navbar></render-navbar>
+<div id="page-content-wrapper">
+	<div class="page-content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-8" id="left">
+					<!--All apps -->
+					<apps-table></apps-table>
+				</div>
+				<div class="col-sm-8" id="left">
+					<!--Recent orders -->
+						<div class="panel panel-default" ng-init="getRecentOrders()">
+						    <div class="panel-heading clearfix">
+								<b>Recent Orders ({{totalOrders}} total)</b>
+						        <div class="btn-group pull-right">
+									<a href="javascript:alert('not ready')" ng-click="recoverDeleted()" class="btn btn-default btn-xs" title="Recover deleted order	"><span class="glyphicon glyphicon-trash"></span></a>
+									<a href="javascript:alert('not ready')" ng-click="newOrder()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
+						     	</div>
+						     </div>
+							<div class="panel-body">
+								<!-- table -->
+								<div class="table-responsive">		
+									<table class="table table-striped table-condensed table-hover">
+										<thead>
+											<tr>
+												<th>Date</th>
+												<th>Performance</th>
+												<th>Name</th>
+												<th>Email</th>
+												<th>Product</th>
+												<th>Revenue</th>
+												<th>Referral ID</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="order in orders" ng-class="{dim: order.type== 'Manual'}">
+												<td>{{order.dt | timeSince}}</td>
+												<td> TODO </td>
+												<td><a href="" ng-click="openOrder(order.id)" >{{order.first_name + " " + order.last_name}}</a></td>
+												<td><a href="mailto:{{order.payer_email}}">{{order.payer_email}}</a></td>
+												<td><a href="#/orders?app_id={{order.app_id}}">{{getAppName(order.app_id)}}</a></td>
+												<td>{{order.mc_gross - order.mc_fee | currency:'£'}}</td>
+												<td>{{order.refID}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4" id="right">
+						<ul>
+							<div class="panel panel-default ">
+								<div class="panel-heading">
+									<h3 class="panel-title">To do</h3>
+								</div>
+								<!--User details -->
+								<div class="panel-body">
+									<li><a href="#/milestones">Milestones --»</a></li>
+									<li><a href="#/reportcsv">CSV Report --»</a></li>
+								</div>
+							</div>
+							<li>
+								<div style="display:none;" ng-init="getGraphs('opm,opw,fapw')"></div>
+								<div class="panel panel-default">
+									<div class="panel-heading">{{graphs.opw.desc}}</div>
+									<div class="panel-body">
+										<a ng-click="viewGraph(graphs.opw.lg,graphs.opw.desc)" href=""> 
+											<img ng-src="{{graphs.opw.sm}}" style="width:100%"></img>
+										</a>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">{{graphs.opm.desc}}</div>
+									<div class="panel-body">
+										<a ng-click="viewGraph(graphs.opm.lg,graphs.opm.desc)" href=""> 
+											<img ng-src="{{graphs.opm.sm}}" style="width:100%"></img>
+										</a>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">{{graphs.fapw.desc}}</div>
+									<div class="panel-body">
+										<a ng-click="viewGraph(graphs.fapw.lg,graphs.fapw.desc)" href=""> 
+											<img ng-src="{{graphs.fapw.sm}}" style="width:100%"></img>
+										</a>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!-- /.page-content -->

@@ -1,4 +1,12 @@
 {
+  "author": "Tiago Siebler",
+  "name": "shine-angular",
+  "version": "1.0.0",
+  "homepage": "https://github.com/tiagosiebler/Shine_AngJS_Version",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tiagosiebler/Shine_AngJS_Version.git"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",

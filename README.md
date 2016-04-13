@@ -5,7 +5,7 @@ This specific project is a frontend built with:
 * A heavily modified version of Shine - not yet included.
 * A PHP based task interface exposed through app/API/ - not yet included.
 
-## Shine
+#### Shine
 Shine is a web-based dashboard for indie Mac developers. It's designed to manage payment and order processing with PayPal and generate and email license files to your users using the [Aquatic Prime](http://www.aquaticmac.com/) framework. It even uploads each revision of your app into Amazon S3 and can produce reports from your users' demographic info (gathered via [Sparkle](http://sparkle.andymatuschak.org/)). It also serves as a central location to collect user feedback, bug reports, and support questions using the [OpenFeedback framework](http://github.com/tylerhall/OpenFeedback/tree/master).
 Here's the [original blog post](http://clickontyler.com/blog/2009/08/shine-an-indie-mac-dashboard/) about the project if you're looking for a longer description.
 
@@ -20,19 +20,19 @@ $ gulp build
 ```
 
 # Project Structure
-### src
+##### src
 Contains all source code that is modified and should be optimized in any way:
 * HTML
 * JavaScript modules
 * CSS
 
-### app
+##### app
 Contains production-ready project with heavy code optimization.
 
-### backup
+##### backup
 Bash script to clean project and create tarball. For temporary backup purposes.
 
-### gulpfile.js
+##### gulpfile.js
 Gulp tasks used to automate build & optimization process. 
 * Clean project (e.g .DS_Store files)
 * Minify HTML
@@ -42,7 +42,7 @@ Gulp tasks used to automate build & optimization process.
 
 For information on gulp refer to: https://github.com/gulpjs/gulp
 
-### package.json
+##### package.json
 npm depencenies for project.
 
 

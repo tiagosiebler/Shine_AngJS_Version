@@ -1,12 +1,27 @@
 <div class="row top-space" ng-controller="reportingCtrl" ng-init="prepareGraphs()">
-  <div class="col-sm-6 col-md-4" ng-repeat="graph in graphs">
+  <!--<div class="col-sm-6 col-md-4" ng-repeat="graph in graphs">
     <div class="thumbnail">
       <div class="caption">
-        <p class="text-center">{{graph.desc}}</p>
+		  <p class="text-center">{{graph.desc}}</p>
       </div>
 	  <a href="" ng-click="viewGraph(graph.lg,graph.desc)">
 	      <img ng-src="{{graph.sm}}" alt="...">
 	  </a>
+    </div>
+  </div>-->
+  <div class="col-md-4" ng-repeat="graph in graphs">
+    <div class="thumbnail">
+      <div class="caption">
+		  <p class="text-center">{{graph.desc}}</p>
+      </div>
+	  <canvas id="{{graph.type}}{{$index}}" class="chart chart-bar" chart-data="graph.data"
+	    chart-labels="graph.labels" chart-legend="false" chart-series="graph.series"
+	    chart-click="onClick" chart-colours="colours[graph.type]" ng-if="graph.type == 'bar'" >
+	  </canvas>
+	  <canvas id="{{graph.type}}{{$index}}" class="chart chart-line" chart-data="graph.data"
+	    chart-labels="graph.labels" chart-legend="false" chart-series="graph.series"
+	    chart-click="onClick" chart-colours="colours[graph.type]" ng-if="graph.type == 'line'">
+	  </canvas>
     </div>
   </div>
 </div>

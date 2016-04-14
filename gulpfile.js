@@ -1,21 +1,22 @@
-var gulp 		= require('gulp')
-var concat 		= require('gulp-concat')
-var sourcemaps 	= require('gulp-sourcemaps')
-var uglify 		= require('gulp-uglify')
-var ngAnnotate 	= require('gulp-ng-annotate')
-var zip 		= require('gulp-zip');
-var notify 		= require("gulp-notify");
-var ignore 		= require('gulp-ignore');
-var rename       = require('gulp-rename');
-var rimraf 		= require('gulp-rimraf');
-var minifycss   = require('gulp-uglifycss');
-var autoprefixer = require('gulp-autoprefixer');
-var plumber      = require('gulp-plumber');
-var sass         = require('gulp-sass');
-var runSequence  = require('run-sequence'); // 'hack' that should be removed when gulp 4 is out
-//var filter       = require('gulp-filter');
-var cmq          = require('gulp-group-css-media-queries');
-var htmlmin 	 = require('gulp-htmlmin');
+var gulp 			= require('gulp'),
+	concat 			= require('gulp-concat'),
+	sourcemaps 		= require('gulp-sourcemaps'),
+	uglify 			= require('gulp-uglify'),
+	ngAnnotate 		= require('gulp-ng-annotate'),
+	zip 			= require('gulp-zip'),
+	notify 			= require("gulp-notify"),
+	ignore 			= require('gulp-ignore'),
+	rename       	= require('gulp-rename'),
+	rimraf 			= require('gulp-rimraf'),
+	minifycss   	= require('gulp-uglifycss'),
+	autoprefixer 	= require('gulp-autoprefixer'),
+	plumber      	= require('gulp-plumber'),
+	sass         	= require('gulp-sass'),
+	runSequence  	= require('run-sequence'), // 'hack' that should be removed when gulp 4 is out
+	//filter       	= require('gulp-filter'),
+	cmq          	= require('gulp-group-css-media-queries'),
+	htmlmin 	 	= require('gulp-htmlmin'),
+	newer 			= require('gulp-newer');
 
 // Project configuration
 var project 		= 'newcp', // Project name, used for build zip.
@@ -51,11 +52,14 @@ gulp.task('buildJSVendors', function () {
 	return gulp.src([
 			'./src/js/vendors/**/jquery*.min.js',
 			'./src/js/vendors/**/angular.min.js',
+			'./src/js/vendors/chartjs/*.js',
 			'./src/js/vendors/**/angular-*.js',
 			'./src/js/vendors/**/ng-table.min.js',
-			'./src/js/vendors/**/*bootstrap*.js'])
-	  
+			'./src/js/vendors/**/*bootstrap*.js',
+		])
+		
 		.pipe(sourcemaps.init())
+		.pipe(newer('app/js/vendors.js'))
 		.pipe(concat('vendors.js'))
 		.pipe(ngAnnotate())
 		.pipe(uglify())
@@ -70,9 +74,15 @@ gulp.task('buildJSApp', function () {
 			'./src/js/app/**/*.js'])
 	  
 		.pipe(sourcemaps.init())
+		.pipe(newer('app/js/app.js'))
 		.pipe(concat('app.js'))
 		.pipe(ngAnnotate())
-		.pipe(uglify())
+		// keep debugger statements in custom code, for development
+		.pipe(uglify({
+			compress: {
+				drop_debugger: false
+			}
+		}))
 		.pipe(gulp.dest('./app/js'))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./app/js'))
@@ -81,7 +91,6 @@ gulp.task('buildJSApp', function () {
 
 gulp.task('buildJS', function(done) {
     return runSequence('buildJSVendors','buildJSApp', function() {
-        console.log('BuildJS done');
         done();
     });
 });
@@ -89,6 +98,7 @@ gulp.task('buildJS', function(done) {
 gulp.task('buildCSS', function () {
  	return gulp.src([
 		'./src/css/style.css', 
+		'./src/css/angular-chart.css', 
 		'./src/css/toaster/toaster.css'])
 		.pipe(plumber())
 		.pipe(sourcemaps.init())
@@ -162,14 +172,22 @@ gulp.task('clean', function() {
 		'**/.DS_Store'], { read: false }) // much faster
  		.pipe(ignore('src/**'))
  		.pipe(ignore('node_modules/**')) //Example of a directory to ignore
- 		.pipe(rimraf({ force: true }))
+ 		.pipe(rimraf({ force: true }));
+		
+		cache.caches = {};
+		
 // 		.pipe(notify({ message: 'Clean task complete', onLast: true }));
 });
 
-// main build task. Clean old delta files, build, then zip ready for distribution to prod
+// main build task. Build, then zip ready for distribution to prod
 gulp.task('build', function(done) {
-    runSequence('clean','buildHTML', 'buildJS', 'buildCSS', 'buildZip', function() {
-//        console.log('Process complete');
+    return runSequence('buildHTML', 'buildJS', 'buildCSS', 'buildZip', function() {
+        done();
+    });
+});
+
+gulp.task('rebuild', function(done) {
+    return runSequence('clean','build', function() {
         done();
     });
 });

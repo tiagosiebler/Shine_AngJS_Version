@@ -142,6 +142,8 @@ gulp.task('buildZip', function () {
 	// make zip of app contents
 	return 	gulp.src(build+'/**/',{dot: true})
 		.pipe(zip(project+'.zip'))
+                .pipe(ignore('**/chart.php'))
+                .pipe(ignore('**/test.php'))
 		.pipe(gulp.dest('./'))
 		.pipe(notify({ message: 'Build process complete', onLast: true }));
 });
@@ -191,3 +193,10 @@ gulp.task('rebuild', function(done) {
         done();
     });
 });
+
+gulp.task('watch', function(){
+    gulp.watch('src/**/*.html', ['buildHTML']); 
+    gulp.watch('src/js/app/**/*.js', ['buildJSApp']); 
+    gulp.watch('src/css/**/*.css', ['buildCSS']); 
+  // Other watchers
+})

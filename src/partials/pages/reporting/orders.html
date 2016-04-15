@@ -9,19 +9,24 @@
 	  </a>
     </div>
   </div>-->
-  <div class="col-md-4" ng-repeat="graph in graphs">
+  <div class="col-md-6 col-lg-4" ng-repeat="graph in graphs">
     <div class="thumbnail">
       <div class="caption">
 		  <p class="text-center">{{graph.desc}}</p>
+          <ul class="list-inline panel-actions">
+              <li><a href="" id="panel-fullscreen" role="button" title="Toggle fullscreen" ng-click="fullscreen($event)"><i id="resize" class="glyphicon glyphicon-resize-full"></i></a></li>
+              <li ng-hide="true"><a href="" id="panel-refresh" role="button" title="Refresh" ng-click="refresh($event)"><i id="refresh" class="glyphicon glyphicon-refresh"></i></a></li>
+          </ul>
       </div>
 	  <canvas id="{{graph.type}}{{$index}}" class="chart chart-bar" chart-data="graph.data"
 	    chart-labels="graph.labels" chart-legend="false" chart-series="graph.series"
-	    chart-click="onClick" chart-colours="colours[graph.type]" ng-if="graph.type == 'bar'" >
+	    chart-click="onClick" chart-coloursa="colours[graph.type]" chart-options="chart.options" ng-if="graph.type == 'bar'" >
 	  </canvas>
 	  <canvas id="{{graph.type}}{{$index}}" class="chart chart-line" chart-data="graph.data"
 	    chart-labels="graph.labels" chart-legend="false" chart-series="graph.series"
-	    chart-click="onClick" chart-colours="colours[graph.type]" ng-if="graph.type == 'line'">
+	    chart-click="onClick" chart-coloursa="colours[graph.type]" chart-options="chart.options" ng-if="graph.type == 'line'">
 	  </canvas>
     </div>
   </div>
+
 </div>

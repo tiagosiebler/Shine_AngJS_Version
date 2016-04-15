@@ -1,5 +1,5 @@
 angular.module('reportingCtrl', ['timeMathFltr','ui.bootstrap','bootstrap.tabset','chart.js'])
-	.controller('reportingCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data, Graphs) {
+	.controller('reportingCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data, Graphs, $timeout) {
 		$scope.graphs = [];
 		
 		if (!String.prototype.splice) {
@@ -25,23 +25,32 @@ angular.module('reportingCtrl', ['timeMathFltr','ui.bootstrap','bootstrap.tabset
 		var graphs = {
 			orders: [
 				{
-					name: 'opw',
-					desc: 'Orders per Week (Past Year)',
-					options: {
-						scaleShowLabels: false//not implemented yet, would need to go into graphs.js
-					}
+					name: 'opw_6month',
+					desc: 'Weekly (<6 Month)'
+				},
+				{
+					name: 'opw_1year',
+					desc: 'Weekly (<Year)'
 				},
 				{
 					name: 'opm',
-					desc: 'Orders per Month (Past 2 Years)'
+					desc: 'Monthly (Past 2 Years)'
 				},
 				{
 					name: 'opma',
-					desc: 'Orders per Month (by app, Past 2 Years)'
-				},//*/
+					desc: 'Monthly (by app, Past 2 Years)'
+				},
 				{
-					name: 'opma_limited',
-					desc: 'Orders per Month (Monthly vs Subscriptions, Past 2 Years)'
+					name: 'opma_limited_1',
+					desc: 'Monthly (1-month vs Subs, 1 year)'
+				},
+				{
+					name: 'opma_limited_2',
+					desc: 'Monthly (1-month vs Subs, 2 years)'
+				},
+				{
+					name: 'opma_limited_comparison',
+					desc: 'Monthly (1-month vs Subs, 2 year comparison)'
 				}
 			],
 			activations: [
@@ -131,6 +140,55 @@ angular.module('reportingCtrl', ['timeMathFltr','ui.bootstrap','bootstrap.tabset
 		Chart.defaults.global.scaleBeginAtZero = false;
 		Chart.defaults.global.legendTemplate = "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>";
 
+		// need reference to chart
+		$scope.chart = {};
+		$scope.chart.options = {};
+		$scope.chart.legend = false;
+
+		$scope.$on('create', function (event, chart) {
+	        $scope.chart = chart;
+			$scope.chart.options.pointDotRadius = 0;
+			//$scope.chart.options.showTooltips = false;
+	    });
+		$scope.$on('fullscreen_toggle', function (e, d) {
+			window.dispatchEvent(new Event('resize'));
+	    });
+		$scope.fullscreen = function (e) {
+	        e.preventDefault();
+
+	        var $this = e.currentTarget;
+
+			var i = $this.getElementsByTagName('i')[0].classList;
+			
+			//if panel, this should be .panel
+			var thumb = $this.closest('.thumbnail');
+			
+			// setting to fullscreen
+			if (i.contains('glyphicon-resize-full')){
+				i.remove('glyphicon-resize-full');
+	            i.add('glyphicon-resize-small');
+				
+				thumb.classList.add('panel-fullscreen');
+
+				$scope.chart.legend = true;
+				//debugger;
+				
+				//debugger;
+			}
+			// setting to small again
+			else if(i.contains('glyphicon-resize-small')){
+	            i.remove('glyphicon-resize-small');
+				i.add('glyphicon-resize-full');
+				
+				thumb.classList.remove('panel-fullscreen');
+
+				$scope.chart.legend = false;
+				
+				
+			}
+		    $scope.$emit('fullscreen_toggle', []);
+		}
+		
 		//Chart.defaults.global.colours = [
 		$scope.colours = {
 			bar: [

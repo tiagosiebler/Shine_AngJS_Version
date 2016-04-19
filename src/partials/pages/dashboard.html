@@ -52,7 +52,7 @@
 						<ul>
 							<div class="panel panel-default ">
 								<div class="panel-heading">
-									<h3 class="panel-title">To do</h3>
+									<h3 class="panel-title">To do list</h3>
 								</div>
 								<!--User details -->
 								<div class="panel-body">
@@ -61,31 +61,7 @@
 								</div>
 							</div>
 							<li>
-								<div style="display:none;" ng-init="getGraphs('opm,opw,fapw')"></div>
-								<div class="panel panel-default">
-									<div class="panel-heading">{{graphs.opw.desc}}</div>
-									<div class="panel-body">
-										<a ng-click="viewGraph(graphs.opw.lg,graphs.opw.desc)" href=""> 
-											<img ng-src="{{graphs.opw.sm}}" style="width:100%"></img>
-										</a>
-									</div>
-								</div>
-								<div class="panel panel-default">
-									<div class="panel-heading">{{graphs.opm.desc}}</div>
-									<div class="panel-body">
-										<a ng-click="viewGraph(graphs.opm.lg,graphs.opm.desc)" href=""> 
-											<img ng-src="{{graphs.opm.sm}}" style="width:100%"></img>
-										</a>
-									</div>
-								</div>
-								<div class="panel panel-default">
-									<div class="panel-heading">{{graphs.fapw.desc}}</div>
-									<div class="panel-body">
-										<a ng-click="viewGraph(graphs.fapw.lg,graphs.fapw.desc)" href=""> 
-											<img ng-src="{{graphs.fapw.sm}}" style="width:100%"></img>
-										</a>
-									</div>
-								</div>
+								<render-graphs graph-keys="'opw_6month,opm_line_2years,opm_subs_line_2years,opm_1month_line_2years,opm_apps_1year'" type="'1'"></render-graphs>
 							</li>
 						</ul>
 					</div>

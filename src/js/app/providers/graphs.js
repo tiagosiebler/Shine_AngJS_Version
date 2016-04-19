@@ -22,6 +22,7 @@
 				}).then(function (results) {
 					var msg = JSON.parse(results.message);
 					msg[results.server.post_params.form.graph_ids].desc = results.server.post_params.graph_desc;
+					
 					return msg;
 				});
 			};

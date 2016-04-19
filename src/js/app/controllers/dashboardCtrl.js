@@ -26,17 +26,6 @@ angular.module('dashboardCtrl', ['timeMathFltr','appsTable','orderViewCtrl','mem
 				return "";
 		};
 		
-		$scope.graphs = {};
-		
-		$scope.getGraphs = function(graphs){
-			Graphs.get(graphs).then(function(results){
-				$scope.graphs = results;
-			});
-		};
-		// Method in Graph factory to pop up graph
-		$scope.viewGraph=Graphs.viewGraph;
-		//$scope.openOrder=OrdersFuncs.openOrder;
-		
 		$scope.openOrder = function(orderID){
 			orderFuncs.viewOrder(orderID,$scope.orders);
 		};

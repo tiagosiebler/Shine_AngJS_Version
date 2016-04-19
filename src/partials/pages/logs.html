@@ -39,36 +39,8 @@
 								<button type="submit" class="btn btn-default" style="display:none;">Submit</button>
 							</form>
 						</li>
-						<div style="display:none;" ng-init="getGraphs('opm,opw,opma')"></div>
 						<li>
-							<div class="panel panel-default">
-								<div class="panel-heading">{{graphs.opw.desc}}</div>
-								<div class="panel-body">
-									<a ng-click="viewGraph(graphs.opw.lg,graphs.opw.desc)" href=""> 
-										<img ng-src="{{graphs.opw.sm}}" style="width:100%"></img>
-									</a>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="panel panel-default">
-								<div class="panel-heading">{{graphs.opm.desc}}</div>
-								<div class="panel-body">
-									<a ng-click="viewGraph(graphs.opm.lg,graphs.opm.desc)" href=""> 
-										<img ng-src="{{graphs.opm.sm}}" style="width:100%"></img>
-									</a>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="panel panel-default">
-								<div class="panel-heading">{{graphs.opma.desc}}</div>
-								<div class="panel-body">
-									<a ng-click="viewGraph(graphs.opma.lg,graphs.opma.desc)" href=""> 
-										<img ng-src="{{graphs.opma.sm}}" style="width:100%"></img>
-									</a>
-								</div>
-							</div>
+							<render-graphs graph-keys="'opw_6month,opm_line_2years,opm_subs_line_2years,opm_1month_line_2years,opm_apps_1year'" type="'1'"></render-graphs>
 						</li>
 					</ul>
 				</div>

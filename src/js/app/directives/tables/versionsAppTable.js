@@ -13,7 +13,6 @@
 				var self = this;
 				
 				$scope.appList = function(){
-					//debugger;
 					return $rootScope.appList;
 				};
 				$scope.getAppName = function(appID){
@@ -133,8 +132,7 @@
 						});
 			        }
 			    });
-			}],
-			controllerAs: 'ordersCtrl'
+			}]
         };
     });
 })();

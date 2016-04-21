@@ -114,8 +114,7 @@
 						});
 			        }
 			    });
-			}],
-			controllerAs: 'ordersCtrl'
+			}]
         };
     });
 })();

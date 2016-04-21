@@ -170,9 +170,7 @@
 					ordesadfrFuncs.viewOrder(orderID,$scope.orders);
 				};
 				// end function to open order in modal
-				
-			}],
-			controllerAs: 'ordersCtrl'
+			}]
         };
     });
 })();

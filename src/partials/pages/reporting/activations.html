@@ -1,12 +1,10 @@
-<div class="row top-space" ng-controller="reportingCtrl" ng-init='prepareGraphs()'>
-  <div class="col-sm-6 col-md-4" ng-repeat="graph in graphs">
-    <div class="thumbnail">
-      <div class="caption">
-        <p class="text-center">{{graph.desc}}</p>
-      </div>
-	  <a href="" ng-click="viewGraph(graph.lg,graph.desc)">
-	      <img ng-src="{{graph.sm}}" alt="...">
-	  </a>
-    </div>
-  </div>
-</div>
+<render-graphs graph-keys="'apw_2years,apm_2years,fapw_2years'" 
+	graph-keys-individual="''" 
+	type="'1'"
+	wrap="true">
+</render-graphs>
+<render-graphs graph-keys="'apm_versions_6months,apm_versions_1year,apw_versions_6months'" 
+	graph-keys-individual="''" 
+	type="'1'"
+	wrap="true">
+</render-graphs>

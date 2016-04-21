@@ -1,5 +1,5 @@
 angular.module('dashboardCtrl', ['timeMathFltr','appsTable','orderViewCtrl','memberFuncs','orderFuncs'])
-	.controller('dashboardCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data, Graphs, $uibModal, memberFuncs, orderFuncs) {
+	.controller('dashboardCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data, $uibModal, memberFuncs, orderFuncs) {
 		var controller = this;
 		
 		// Set a few vars to avoid undefined errors, just in case.
@@ -14,13 +14,15 @@ angular.module('dashboardCtrl', ['timeMathFltr','appsTable','orderViewCtrl','mem
 				$scope.totalOrders = results.total;
 			});
 		};
+		// this is used by orders simply displayed onclick, and by the recent-orders section of the dashboard
+		$scope.getRecentOrders();
 		
 		$scope.appList = function(){
 			return $rootScope.appList;
 		}
-		$scope.getAppName = function(orderID){
+		$scope.getAppName = function(appID){
 			if($scope.appList())
-				return $scope.appList()[orderID].title;
+				return $scope.appList()[appID].title;
 			
 			else 
 				return "";

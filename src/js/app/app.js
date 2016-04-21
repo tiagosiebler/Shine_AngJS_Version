@@ -1,5 +1,5 @@
 (function() {
-    angular.module('serverCP', ['routes', 'Data', 'Graphs', 'graphsDirective', 'authCtrl', 'ordersCtrl','navbar','ordersTable','membersCtrl','membersTable','activationsCtrl','activationsTable','logsCtrl','versionsCtrl','graphViewCtrl','reportingCtrl'])
+    angular.module('serverCP', ['routes', 'Data', 'Graphs', 'graphsDirective', 'authCtrl','navbar','ordersTable','membersTable','activationsTable','logsCtrl','versionsCtrl','graphViewCtrl','reportingCtrl'])
 
 	.run(function($http, $httpParamSerializerJQLike) {
 		$http.defaults.transformRequest.unshift($httpParamSerializerJQLike);	  

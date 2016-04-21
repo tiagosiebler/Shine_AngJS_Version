@@ -132,8 +132,7 @@
 						});
 			        }
 			    });
-			}],
-			controllerAs: 'ordersCtrl'
+			}]
         };
     });
 })();

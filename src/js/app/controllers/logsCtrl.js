@@ -1,4 +1,4 @@
-angular.module('logsCtrl', ['ui.bootstrap','logsSystemTable','logsFailureTable','logsDeactTable','logsCIDTable','threeButtonBar'])
-	.controller('logsCtrl', function ($scope, Graphs) {
-		
+angular.module('logsCtrl', ['logsSystemTable','logsFailureTable','logsDeactTable','logsCIDTable','threeButtonBar'])
+	.controller('logsCtrl', function () {
+		//todo deprecated
 });

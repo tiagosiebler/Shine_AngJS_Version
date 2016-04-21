@@ -135,8 +135,7 @@
 				$scope.openOrder = function(orderID){
 					orderFuncs.viewOrder(orderID,$scope.orders);
 				}
-			}],
-			controllerAs: 'ordersCtrl'
+			}]
         };
     });
 })();

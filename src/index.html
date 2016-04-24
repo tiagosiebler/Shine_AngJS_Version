@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="serverCP" lang="en">
+<html lang="en" ng-app="serverCP">
 	<head>
 		
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-		
+		<title ng:bind-template="{{getLocation()}}"></title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.min.css">
 		<link rel="stylesheet" type="text/css" href="css/angular/ng-table.min.css">		
@@ -13,9 +13,15 @@
 		
 		
 	</head>
-	<body >
-		<div data-ng-view="" id="ng-view" class="slide-animation"></div>
-
+	<body>
+		<render-navbar></render-navbar>
+		<div id="page-content-wrapper">
+			<div class="page-content">
+				<div class="container-fluid">
+					<div data-ng-view="" id="ng-view"></div>
+				</div>
+			</div>
+		</div>
 		<!-- footer -->
 		<toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
 		<script type="text/javascript" src="js/vendors.js"></script>

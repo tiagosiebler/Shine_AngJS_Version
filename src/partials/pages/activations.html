@@ -1,30 +1,22 @@
-<render-navbar></render-navbar>
-<div id="page-content-wrapper">
-	<div class="page-content">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-8" id="left">
-					<!--All apps -->
-					<activations-table></activations-table>
-				</div>
-				<div class="col-sm-4" id="right">
-					<ul>
-						<li>
-							<form role="search">
-								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Search members by name, email, IP, CID">
-								</div>
-								<button type="submit" class="btn btn-default" style="display:none;">Submit</button>
-							</form>
-						</li>
-						<li>
-							<render-graphs graph-keys="'apw_2years,apm_2years,fapw_2years'" type="'1'"></render-graphs>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
+<div class="row">
+	<div class="col-sm-8" id="left">
+		<!--All apps -->
+		<activations-table></activations-table>
 	</div>
-</div>
+	<div class="col-sm-4" id="right">
+		<ul>
+			<li>
+				<form role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search members by name, email, IP, CID">
+					</div>
+					<button type="submit" class="btn btn-default" style="display:none;">Submit</button>
+				</form>
+			</li>
+			<li>
+				<render-graphs graph-keys="'apw_2years,apm_2years,fapw_2years'" type="'1'"></render-graphs>
+			</li>
+		</ul>
+	</div>
 </div>
 <!-- /.page-content -->

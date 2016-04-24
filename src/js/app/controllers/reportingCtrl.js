@@ -23,25 +23,7 @@ angular.module('reportingCtrl', ['timeMathFltr','ui.bootstrap','bootstrap.tabset
 		//var graphs = new Object();
 
 		var graphs = {
-			activations: [
-				{
-					name: 'apw',
-					desc: 'Activations per Week'
-				},
-				{
-					name: 'fapw',
-					desc: 'Failed Activations per Week'
-				},
-				{
-					name: 'apm',
-					desc: 'Activations per Month'
-				}
-			],
 			versions: [
-				{
-					name: 'opma',
-					desc: 'Orders per Month (by app)'
-				},
 				{
 					name: 'vers_dist_pie',
 					desc: 'Version Distribution'

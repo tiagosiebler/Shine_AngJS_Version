@@ -97,8 +97,8 @@ gulp.task('buildJS', function(done) {
 
 gulp.task('buildCSS', function () {
  	return gulp.src([
+		'./src/css/angular-chart.css',		
 		'./src/css/style.css', 
-		'./src/css/angular-chart.css', 
 		'./src/css/toaster/toaster.css'])
 		.pipe(plumber())
 		.pipe(sourcemaps.init())

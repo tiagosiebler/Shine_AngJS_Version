@@ -12,8 +12,36 @@
 	
 	// check for session on start
     .run(function ($rootScope, $location, Data) {
+        $rootScope.authenticated = false;
+
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            $rootScope.authenticated = false;
+			$rootScope.getLocation = function(){
+				var loc = $location.path();
+			
+				// remove first forward slash
+		        if (loc.indexOf('/') === 0){
+					loc = loc.replace('/','');
+				}
+				// last forward slash
+		        if (loc.indexOf('/') === (loc.length - 1)){
+					loc = loc.replace('/','');
+				}
+				else{
+					// replace remaining slashes with separator
+					loc = loc.replace('/',' - ');
+				}
+			
+				return 'CP - ' + loc.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
+			}
+			$rootScope.logout = function () {
+				console.log('logout');
+		        Data.get('logout').then(function (results) {
+		            //Data.toast(results);
+					$rootScope.authenticated = false;
+		            $location.path('/login');
+		        });
+		    }
+			//todo server-side auth checks are there. Standard responses could provide this instead of proactively calling it
             Data.get('getSessionState').then(function (results) {
                 if (results.uid) {
                     $rootScope.authenticated = true;
@@ -32,14 +60,7 @@
 						logs: results.num_logs
 					};
 								
-					$rootScope.logout = function () {
-						//debugger;
-						console.log('logout');
-				        Data.get('logout').then(function (results) {
-				            //Data.toast(results);
-				            $location.path('/login');
-				        });
-				    }
+
 					
 					// Redirect http://url/ to dashboard, unless not logged in
                     if (next.$$route && next.$$route.originalPath == "/") {

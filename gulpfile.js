@@ -195,8 +195,9 @@ gulp.task('rebuild', function(done) {
 });
 
 gulp.task('watch', function(){
+	runSequence('build');
+	
     gulp.watch('src/**/*.html', ['buildHTML']); 
     gulp.watch('src/js/app/**/*.js', ['buildJSApp']); 
     gulp.watch('src/css/**/*.css', ['buildCSS']); 
-  // Other watchers
 })

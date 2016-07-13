@@ -16,7 +16,8 @@ var gulp 			= require('gulp'),
 	//filter       	= require('gulp-filter'),
 	cmq          	= require('gulp-group-css-media-queries'),
 	htmlmin 	 	= require('gulp-htmlmin'),
-	newer 			= require('gulp-newer');
+	newer 			= require('gulp-newer'),
+	browserSync 	= require('browser-sync').create();
 
 // Project configuration
 var project 		= 'newcp', // Project name, used for build zip.
@@ -56,6 +57,7 @@ gulp.task('buildJSVendors', function () {
 			'./src/js/vendors/**/angular-*.js',
 			'./src/js/vendors/**/ng-table.min.js',
 			'./src/js/vendors/**/*bootstrap*.js',
+			'./src/js/vendors/**/*ngprogress*.js',
 		])
 		
 		.pipe(sourcemaps.init())
@@ -66,7 +68,7 @@ gulp.task('buildJSVendors', function () {
 		.pipe(gulp.dest('./app/js'))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./app/js'))
-//		.pipe(notify({ message: 'JS vendors task complete', onLast: true }));
+		.pipe(browserSync.stream());		
 })
 
 gulp.task('buildJSApp', function () {
@@ -86,7 +88,7 @@ gulp.task('buildJSApp', function () {
 		.pipe(gulp.dest('./app/js'))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./app/js'))
-//		.pipe(notify({ message: 'JS app task complete', onLast: true }));
+		.pipe(browserSync.stream());		
 })
 
 gulp.task('buildJS', function(done) {
@@ -129,12 +131,16 @@ gulp.task('buildCSS', function () {
 		.pipe(gulp.dest('./app/css'))
 		//.pipe(reload({stream:true})) // Inject Styles when min style file is created
 //		.pipe(notify({ message: 'Styles task complete', onLast: true }))
+		.pipe(browserSync.stream());		
+		
 });
 
 gulp.task('buildHTML', function() {
 	return gulp.src(['./src/**/*.html'])
+		.pipe(gulp.dest('./app'))
 		.pipe(htmlmin({collapseWhitespace: true}))
 		.pipe(gulp.dest('./app'))
+		.pipe(browserSync.stream());		
 //		.pipe(notify({ message: 'HTML task complete', onLast: true }));
 });
 
@@ -195,9 +201,26 @@ gulp.task('rebuild', function(done) {
 });
 
 gulp.task('watch', function(){
-	runSequence('build');
+	runSequence('build');	
+    //gulp.watch('src/**/*.html', browserSync.reload); 
+    //gulp.watch('src/js/app/**/*.js', browserSync.reload); 
+    //gulp.watch('src/css/**/*.css', browserSync.reload); 
 	
     gulp.watch('src/**/*.html', ['buildHTML']); 
     gulp.watch('src/js/app/**/*.js', ['buildJSApp']); 
+    gulp.watch('src/js/vendors/**/*.js', ['buildJSVendors']); 
     gulp.watch('src/css/**/*.css', ['buildCSS']); 
+    gulp.watch('app/API/taskAPI.php', browserSync.reload); 
+	
 })
+
+gulp.task('browser-sync', function() {
+    browserSync.init({
+        server: {
+            baseDir: './app'
+        },
+        startPath: './'
+    });
+});
+
+gulp.task('default', ['browser-sync', 'watch']);

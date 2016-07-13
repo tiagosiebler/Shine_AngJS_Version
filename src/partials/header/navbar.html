@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/dashboard">HOME</a>
+      <a class="navbar-brand" href="#/dashboard" ng-class="{ active: isActive('/dashboard')}">HOME</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('/versions')}"><a href="#/versions">Versions</a></li>
         <li ng-class="{ active: isActive('/orders')}"><a href="#/orders">Orders</a></li>
-        <li ng-class="{ active: isActive('/members')}"><a href="#/members">Customers</a></li>
+        <li ng-class="{ active: isActive('/members')}"><a href="#/members">Members</a></li>
         <li ng-class="{ active: isActive('/activations')}"><a href="#/activations">Activations</a></li>
         <li ng-class="{ active: isActive('/logs')}"><a href="#/logs">Logs <span class="badge">{{nums.logs}}</span></a></li>
         <li ng-class="{ active: isActive('/feedback')}"><a href="">Feedback <span class="badge">{{nums.feedback}}</span></a></li>

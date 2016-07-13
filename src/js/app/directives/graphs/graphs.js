@@ -24,11 +24,11 @@
 				
 				Graphs.get($scope.graphKeys).then(function(results){
 					$scope.graphs = results;
-					console.log($scope.graphs);
+					//console.log($scope.graphs);
 
 					for(var key in results) { 
 					    var attr = results[key]; 
-						console.log('Chart (' + key + ') performance ' + attr.debug.time_taken);
+						//console.log('Chart (' + key + ') performance ' + attr.debug.time_taken);
 					}				
 				});
 				

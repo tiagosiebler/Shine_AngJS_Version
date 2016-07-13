@@ -1,11 +1,15 @@
 (function() {
     angular.module('Data', ['toaster'])
-	
-	.factory("Data", ['$http', 'toaster',
-		function ($http, toaster) {
+	.factory("Data", ['$http', 'toaster', '$rootScope', 
+		function ($http, toaster, $rootScope) {
 			
 		    var serviceBase = 'API/';
 
+			if(window.location.hostname == 'localhost' & window.location.port == '3000'){
+				console.log("-- In DEV mode");
+				serviceBase = "http://localhost/Shine_AngJS_Version/app/API/";
+			}
+			
 			var timestamp = new Date().getTime();
 			timestamp = '?&i='+timestamp;
 			
@@ -19,22 +23,44 @@
 		        toaster.pop(state, "", msg, 2000, 'trustedHtml');
 			}
 		    obj.get = function (q) {
-		        return $http.get(serviceBase + q + timestamp).then(function (results) {
+				progressBar.updateQueue(+1);
+				
+				return $http({
+		            method: 'GET',
+				    headers: {'Content-Type': 'application/json'},
+					url: serviceBase + q + timestamp
+				}).catch(function(e){
+					progressBar.updateQueue(-1);
+					
+					console.log("GET failure",e);
+					toaster.popSimple("error","Server Error","Task request failed!",5000);
+				}).then(function (results) {
+					progressBar.updateQueue(-1);
+
 					//console.log("get: " + JSON.stringify(results.data));
-		            return results.data;
-		        });
+					if(typeof results != "undefined" && typeof results.data != "undefined"){
+			            return results.data;
+					}
+					else return results;
+				});
 		    };
 			
-		    obj.post = function (q, object) {			
+		    obj.post = function (q, object) {	
+				progressBar.updateQueue(+1);
+						
 				return $http({
 		            method: 'POST',
 				    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 					url: serviceBase + q + timestamp,
 					data: object 
 				}).catch(function(e){
+					progressBar.updateQueue(-1);
+					
 					console.log("POST failure",e);
 					toaster.popSimple("error","Server Error","Task request failed!",5000);
 				}).then(function (results) {
+					progressBar.updateQueue(-1);
+					
 					if(results.data && results.data.status == "success"){					
 						return results.data;
 					}

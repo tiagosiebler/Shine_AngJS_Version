@@ -51,21 +51,24 @@ ul{
 nav.navbar.navbar-default{
 	background-image: linear-gradient(to bottom,rgb(2, 32, 35) 0,rgb(2, 41, 38) 100%);
 }
-.navbar-default .navbar-brand{
+.navbar-default .navbar-brand, .navbar-brand:hover{
 	color: #FFF;
 }
 .navbar-default .navbar-nav>li>a{
-	color: #EDF1F1;
-}
-.navbar-default .navbar-brand:hover{
-	color: #BFFCFD;
+	color: #FFF;
 }
 .navbar-default .navbar-nav>li>a:hover{
-	color: #BFFCFD;
+	color: #FFF;
+	background-color: rgba(31, 56, 36, 0.44);
 }
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a{
 	background-image: linear-gradient(to bottom,rgb(255, 255, 255) 0,rgba(255, 255, 255, 1) 100%);
 }
+.navbar-brand.active{
+	background-image: linear-gradient(to bottom,white 0,#DEDEDE 100%);
+	color: #333;
+}
+
 .top-space{
 	padding-top: 20px;
 }
@@ -99,7 +102,10 @@ nav.navbar.navbar-default{
 .nav-tabs .dropdown-menu, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
     margin-top: 0;
 }
-
+.navbar{
+	border: none;
+	border-radius: 0px;
+}
 .navbar .sub-menu:before {
     border-bottom: 7px solid transparent;
     border-left: none;
@@ -124,7 +130,6 @@ nav.navbar.navbar-default{
         display: block;
     }
     .navbar-collapse {
-        border-top: 1px solid transparent;
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
     .navbar-collapse.collapse {
@@ -175,3 +180,44 @@ nav.navbar.navbar-default{
 	max-height:100%;
 }
 
+/* Styling for the ngProgress itself */
+#ngProgress {
+    margin: 0;
+    padding: 0;
+    z-index: 99998;
+    background-color: green;
+    color: green;
+    box-shadow: 0 0 10px 0; /* Inherits the font color */
+    height: 2px;
+    opacity: 0;
+
+    /* Add CSS3 styles for transition smoothing */
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Styling for the ngProgress-container */
+#ngProgress-container {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}
+
+#login-box {
+	padding: 10% 0;
+}
+
+.loginField {
+	border: none;
+	box-shadow: none;
+}
+.loginWidget {
+	background-color: rgba(0, 229, 255, 0.15);
+    box-shadow:0px 10px 40px 35px rgba(0, 229, 255, 0.15);/*rgba(0, 255, 69, 0.25);*/
+}

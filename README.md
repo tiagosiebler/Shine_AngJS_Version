@@ -12,7 +12,7 @@ Here's the [original blog post](http://clickontyler.com/blog/2009/08/shine-an-in
 # Basic Usage
 1. Install dependencies
 ```sh
-$ npm install
+$ npm install -d
 ```
 2. Build with gulp
 ```sh

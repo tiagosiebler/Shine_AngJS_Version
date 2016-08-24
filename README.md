@@ -24,6 +24,7 @@ Installs dependencies and launches development instance in default browser. Any 
 	$ gulp
 	```
 
+
 ## Production Build
 The production build produces a zip file, or can be accessed directly via the build directory.
 
@@ -38,6 +39,7 @@ The production build produces a zip file, or can be accessed directly via the bu
 	```
 	$ gulp build
 	```
+
 
 # Project Structure
 ##### src

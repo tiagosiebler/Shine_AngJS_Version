@@ -18,7 +18,6 @@ Installs dependencies and launches development instance in default browser. Any 
 ```
 $ npm install -d
 ```
-
 2. Run with gulp
 
 ```
@@ -34,7 +33,6 @@ The production build produces a zip file, or can be accessed directly via the bu
 ```
 $ npm install -d
 ```
-
 2. Build with gulp
 
 ```

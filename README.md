@@ -15,14 +15,15 @@ Installs dependencies and launches development instance in default browser. Any 
 
 1. Install gulp dependencies
 
-	```
-	$ npm install -d
+```
+$ npm install -d
+```
 
 2. Run with gulp
 
-	```
-	$ gulp
-	```
+```
+$ gulp
+```
 
 
 ## Production Build
@@ -30,15 +31,15 @@ The production build produces a zip file, or can be accessed directly via the bu
 
 1. Install gulp dependencies
 
-	```
-	$ npm install -d
-	```
+```
+$ npm install -d
+```
 
 2. Build with gulp
 
-	```
-	$ gulp build
-	```
+```
+$ gulp build
+```
 
 
 # Project Structure

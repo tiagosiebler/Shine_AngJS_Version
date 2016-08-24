@@ -10,14 +10,34 @@ Shine is a web-based dashboard for indie Mac developers. It's designed to manage
 Here's the [original blog post](http://clickontyler.com/blog/2009/08/shine-an-indie-mac-dashboard/) about the project if you're looking for a longer description.
 
 # Basic Usage
-1. Install dependencies
-```sh
-$ npm install -d
-```
+## Development 
+Installs dependencies and launches development instance in default browser. Any file-changes automatically update browser instance.
+
+1. Install gulp dependencies
+
+	```
+	$ npm install -d
+
+2. Run with gulp
+
+	```
+	$ gulp
+	```
+
+## Production Build
+The production build produces a zip file, or can be accessed directly via the build directory.
+
+1. Install gulp dependencies
+
+	```
+	$ npm install -d
+	```
+
 2. Build with gulp
-```sh
-$ gulp build
-```
+
+	```
+	$ gulp build
+	```
 
 # Project Structure
 ##### src
@@ -26,8 +46,11 @@ Contains all source code that is modified and should be optimized in any way:
 * JavaScript modules
 * CSS
 
-##### app
+##### build
 Contains production-ready project with heavy code optimization.
+
+##### dev
+Contains development instance of project with minimal code processing for easier debugging. Debugger statements are not removed here.
 
 ##### backup
 Bash script to clean project and create tarball. For temporary backup purposes.
@@ -44,7 +67,6 @@ For information on gulp refer to: https://github.com/gulpjs/gulp
 
 ##### package.json
 npm depencenies for project.
-
 
 Screenshots
 -----------

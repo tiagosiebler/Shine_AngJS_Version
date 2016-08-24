@@ -79,7 +79,7 @@
 					filterOptions: {
 						filterDelay: 200
 					},
-			        getData: function($defer, params) {
+			        getData: function(params) {
 						//toaster.popSimple("warning","","Sorting still doesn't work!",4000);
 
 						var form = {
@@ -93,7 +93,7 @@
 						$scope.updateParamsPage(params.page());
 						$scope.updateParamsCount(params.count());
 						
-						Data.post('getDeactLogs', {
+						return Data.post('getDeactLogs', {
 							form: form,
 						}).then(function (results) {
 							$scope.logs = JSON.parse(results.message);
@@ -108,7 +108,7 @@
 
 				            params.total($scope.total);
 							
-							$defer.resolve(filteredData);
+							return filteredData;
 						});
 			        }
 			    });

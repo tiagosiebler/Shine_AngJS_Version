@@ -7,7 +7,7 @@
 
 			if(window.location.hostname == 'localhost' & window.location.port == '3000'){
 				console.log("-- In DEV mode");
-				serviceBase = "http://localhost/Shine_AngJS_Version/app/API/";
+				serviceBase = "http://localhost/Shine_AngJS_Version/dev/API/";
 			}
 			
 			var timestamp = new Date().getTime();

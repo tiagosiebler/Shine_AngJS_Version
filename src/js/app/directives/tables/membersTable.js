@@ -96,7 +96,6 @@
 				};
 
 				$scope.isExpired = function(member){
-
 					var expDate = new Date(Date.parse(member.expiry_date));
 					var todayDate = new Date();
 					
@@ -104,10 +103,10 @@
 						return true;
 					
 					return false;
-			    }
+			    };
 					
 				// load table
-			    $scope.tableParams = new NgTableParams({
+				var tableParams = {
 			        page: $scope.pagination.currentPage,            // show first page
 			        count: $scope.pagination.perPage,           // count per page
 			        sorting: {  
@@ -119,46 +118,53 @@
 						extension_count: 'desc'
 					},
 			        filter: $scope.filters,
-			    }, 
-				{
-			        filterSwitch: true,
-			        total: 0, // length of data
-					filterOptions: {
-						filterDelay: 200
-					},
-			        getData: function($defer, params) {
-						//toaster.popSimple("warning","","Sorting still doesn't work!",4000);
-
-						var form = {
-							offset: (params.page() - 1) * params.count(),
-							limit: params.count(),
-							filter:params.filter(),
-							sorting:params.sorting()
-						};
-						
-						$scope.updateParamsFilters(params.filter());
-						//$scope.updateParamsSorting(params.sorting());
-						$scope.updateParamsPage(params.page());
-						$scope.updateParamsCount(params.count());
-						
-						Data.post('getMembers', {
-							form: form,
-						}).then(function (results) {
-							$scope.members = JSON.parse(results.message);
-
-							if(results.total != $scope.total)
-								toaster.popSimple("success","",""+results.total+" results",2000);
+			    };
+					
+			    $scope.tableParams = new NgTableParams(tableParams, 
+					{
+				        filterSwitch: true,
+				        total: 0, // length of data
+						filterOptions: {
+							filterDelay: 200
+						},
+				        getData: function(params) {
+							//toaster.popSimple("warning","","Sorting still doesn't work!",4000);
+							//console.log("membersTable params: ",params);
+							var form = {
+								offset: (params.page() - 1) * params.count(),
+								limit: params.count(),
+								filter:params.filter(),
+								sorting:params.sorting()
+							};
 							
-							$scope.total = results.total;
-							$scope.isFiltered = results.filtered;
+							$scope.updateParamsFilters(params.filter());
+							//$scope.updateParamsSorting(params.sorting());
+							$scope.updateParamsPage(params.page());
+							$scope.updateParamsCount(params.count());
 							
-				            var filteredData = params.filter() ? $filter('filter')($scope.members, params.filter()) : $scope.members;
+							
+							return Data.post('getMembers', {
+								form: form,
+							}).then(function (results) {
+								$scope.members = JSON.parse(results.message);
+								if(results.total != $scope.total)
+									toaster.popSimple("success","",""+results.total+" results",2000);
+							
+								$scope.total = results.total;
+								$scope.isFiltered = results.filtered;
+								
+								
+					            var filteredData = params.filter() ? $filter('filter')($scope.members, params.filter()) : $scope.members;
 
-				            params.total($scope.total);
-							$defer.resolve(filteredData);
-						});
-			        }
-			    });
+								// for number of pages to work on total, not number of filtered results
+					            params.total($scope.total);
+								
+								//debugger;
+								return filteredData;
+							});
+				        }
+				    }
+				);
 				
 				// function to open member in modal
 				$scope.openMember = function(memberID){

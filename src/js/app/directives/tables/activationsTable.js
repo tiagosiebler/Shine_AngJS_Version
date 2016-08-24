@@ -112,7 +112,7 @@
 					filterOptions: {
 						filterDelay: 200
 					},
-			        getData: function($defer, params) {
+			        getData: function(params) {
 						//toaster.popSimple("warning","","Sorting still doesn't work!",4000);
 
 						var form = {
@@ -126,7 +126,7 @@
 						$scope.updateParamsPage(params.page());
 						$scope.updateParamsCount(params.count());
 						
-						Data.post('getActivations', {
+						return Data.post('getActivations', {
 							form: form,
 						}).then(function (results) {
 						        //Data.toast(results);
@@ -141,7 +141,7 @@
 				            var filteredData = params.filter() ? $filter('filter')($scope.activations, params.filter()) : $scope.activations;
 
 				            params.total($scope.total);
-							$defer.resolve(filteredData);
+							return filteredData;
 						});
 			        }
 			    });

@@ -1,6 +1,18 @@
 (function() {
     angular.module('graphsDirective', ['chart.js'])
-
+	.config(['ChartJsProvider', function (ChartJsProvider) {
+		// Configure all charts
+		/*
+		ChartJsProvider.setOptions({
+			chartColors: ['#FF5252', '#FF8A80'],
+			responsive: false
+		});
+		
+		// Configure all line charts
+		ChartJsProvider.setOptions('line', {
+			showLines: false
+		});//*/
+	}])
     .directive('renderGraphs', function() {
         return {
             restrict: 'E',
@@ -25,11 +37,11 @@
 				Graphs.get($scope.graphKeys).then(function(results){
 					$scope.graphs = results;
 					//console.log($scope.graphs);
-
+					/*
 					for(var key in results) { 
 					    var attr = results[key]; 
 						//console.log('Chart (' + key + ') performance ' + attr.debug.time_taken);
-					}				
+					}	//*/			
 				});
 				
 				$scope.shouldWrap = function(){
@@ -57,7 +69,8 @@
 				
 						thumb.classList.add('panel-fullscreen');
 
-						$scope.chart.legend = true;
+					    $scope.chart.options = { legend: { display: true } };
+						
 					}
 					// setting to small again
 					else if(i.contains('glyphicon-resize-small')){
@@ -66,7 +79,7 @@
 				
 						thumb.classList.remove('panel-fullscreen');
 
-						$scope.chart.legend = false;
+					    $scope.chart.options = { legend: { display: false } };
 				
 				
 					}
@@ -74,117 +87,151 @@
 				};
 				
 				$scope.colours = {
-					Bar: [
+					bar: [
 					    { // light blue
-				            fillColor: "rgba(102, 175, 249, 0.2)",
-				            strokeColor: "rgba(102, 175, 249, 1)",
-				            highlightFill: "rgba(102, 175, 249, 1)",
-				            highlightStroke: "rgba(102, 175, 249, 1)"
+				            backgroundColor: "rgba(102, 175, 249, 0.2)",
+				            borderColor: "rgba(102, 175, 249, 1)",
+				            hoverBackgroundColor: "rgba(102, 175, 249, 1)",
+				            hoverBorderColor: "rgba(102, 175, 249, 1)"
 					    },
 					    { // yellow
-					        fillColor: "rgba(253,180,92,0.2)",
-					        strokeColor: "rgba(253,180,92,1)",
-					        highlightFill: "rgba(253,180,92,1)",
-					        highlightStroke: "rgba(253,180,92,0.8)"
+					        backgroundColor: "rgba(253,180,92,0.2)",
+					        borderColor: "rgba(253,180,92,1)",
+					        hoverBackgroundColor: "rgba(253,180,92,1)",
+					        hoverBorderColor: "rgba(253,180,92,0.8)"
 					    },
 					    { // purple
-					        fillColor: "rgba(175, 101, 255,0.2)",
-					        strokeColor: "rgba(175, 101, 255,1)",
-					        highlightFill: "rgba(175, 101, 255,1)",
-					        highlightStroke: "rgba(175, 101, 255,0.8)"
+					        backgroundColor: "rgba(175, 101, 255,0.2)",
+					        borderColor: "rgba(175, 101, 255,1)",
+					        hoverBackgroundColor: "rgba(175, 101, 255,1)",
+					        hoverBorderColor: "rgba(175, 101, 255,0.8)"
 					    },
 					    { // red
-					        fillColor: "rgba(255, 40, 44, 0.2)",
-					        strokeColor: "rgba(255, 40, 44, 1)",
-					        highlightFill: "rgba(255, 40, 44, 1)",
-					        highlightStroke: "rgba(255, 40, 44, 0.8)"
+					        backgroundColor: "rgba(255, 40, 44, 0.2)",
+					        borderColor: "rgba(255, 40, 44, 1)",
+					        hoverBackgroundColor: "rgba(255, 40, 44, 1)",
+					        hoverBorderColor: "rgba(255, 40, 44, 0.8)"
 					    },
 					    { // light green
-					        fillColor: "rgba(96, 255, 173, 0.2)",
-					        strokeColor: "rgba(96, 255, 173, 1)",
-					        highlightFill: "rgba(96, 255, 173, 1)",
-					        highlightStroke: "rgba(96, 255, 173,0.8)"
+					        backgroundColor: "rgba(96, 255, 173, 0.2)",
+					        borderColor: "rgba(96, 255, 173, 1)",
+					        hoverBackgroundColor: "rgba(96, 255, 173, 1)",
+					        hoverBorderColor: "rgba(96, 255, 173,0.8)"
 					    },
 					    { // light grey
-					        fillColor: "rgba(220,220,220,0.2)",
-					        strokeColor: "rgba(220,220,220,1)",
-					        pointColor: "rgba(220,220,220,1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        highlightFill: "rgba(220,220,220,1)",
-					        highlightStroke: "rgba(220,220,220,0.8)",
-					        pointHighlightStroke: "rgba(220,220,220,0.8)",
+					        backgroundColor: "rgba(220,220,220,0.2)",
+					        borderColor: "rgba(220,220,220,1)",
+					        hoverBackgroundColor: "rgba(220,220,220,1)",
+					        hoverBorderColor: "rgba(220,220,220,0.8)",
 					    },
 					    { // dark grey
-					        fillColor: "rgba(77,83,96,0.2)",
-					        strokeColor: "rgba(77,83,96,1)",
-					        pointColor: "rgba(77,83,96,1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        highlightFill: "rgba(77,83,96,1)",
-					        highlightStroke: "rgba(77,83,96,1)",
-					        pointHighlightStroke: "rgba(77,83,96,0.8)",
+					        backgroundColor: "rgba(77,83,96,0.2)",
+					        borderColor: "rgba(77,83,96,1)",
+					        hoverBackgroundColor: "rgba(77,83,96,1)",
+					        hoverBorderColor: "rgba(77,83,96,1)",
 					    }
 					],
-					Line: [
+					line: [
 					    { // light blue
-				            fillColor: "rgba(102, 175, 249, 0.2)",
-				            strokeColor: "rgba(102, 175, 249, 1)",
-				            pointColor: "rgba(102, 175, 249, 1)",
-				            pointStrokeColor: "#fff",
-				            pointHighlightFill: "#fff",
-				            pointHighlightStroke: "rgba(151,187,205,1)"
+				            backgroundColor: "rgba(102, 175, 249, 0.2)",
+				            borderColor: "rgba(102, 175, 249, 1)",
+				            pointBackgroundColor: "rgba(102, 175, 249, 1)",
+				            pointBorderColor: "#fff",
+				            pointHoverBackgroundColor: "#fff",
+				            pointHoverBorderColor: "rgba(151,187,205,1)"
 					    },
 					    { // yellow
-					        fillColor: "rgba(253,180,92,0.2)",
-					        strokeColor: "rgba(253,180,92,1)",
-					        pointColor: "rgba(253,180,92,1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        pointHighlightStroke: "rgba(253,180,92,0.8)"
+					        backgroundColor: "rgba(253,180,92,0.2)",
+					        borderColor: "rgba(253,180,92,1)",
+					        pointBackgroundColor: "rgba(253,180,92,1)",
+					        pointBorderColor: "#fff",
+					        pointHoverBackgroundColor: "#fff",
+					        pointHoverBorderColor: "rgba(253,180,92,0.8)"
 					    },
 					    { // purple
-					        fillColor: "rgba(175, 101, 255,0.2)",
-					        strokeColor: "rgba(175, 101, 255,1)",
-					        pointColor: "rgba(175, 101, 255,1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        pointHighlightStroke: "rgba(175, 101, 255,1)"
+					        backgroundColor: "rgba(175, 101, 255,0.2)",
+					        borderColor: "rgba(175, 101, 255,1)",
+					        pointBackgroundColor: "rgba(175, 101, 255,1)",
+					        pointBorderColor: "#fff",
+					        pointHoverBackgroundColor: "#fff",
+					        pointHoverBorderColor: "rgba(175, 101, 255,1)"
 					    },
 					    { // red
-					        fillColor: "rgba(255, 40, 44, 0.2)",
-					        strokeColor: "rgba(255, 40, 44, 1)",
-					        pointColor: "rgba(255, 40, 44, 1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        pointHighlightStroke: "rgba(255, 40, 44, 0.8)"
+					        backgroundColor: "rgba(255, 40, 44, 0.2)",
+					        borderColor: "rgba(255, 40, 44, 1)",
+					        pointBackgroundColor: "rgba(255, 40, 44, 1)",
+					        pointBorderColor: "#fff",
+					        pointHoverBackgroundColor: "#fff",
+					        pointHoverBorderColor: "rgba(255, 40, 44, 0.8)"
 					    },
 					    { // light green
-					        fillColor: "rgba(96, 255, 173, 0.2)",
-					        strokeColor: "rgba(96, 255, 173, 1)",
-					        pointColor: "rgba(96, 255, 173, 1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        pointHighlightStroke: "rgba(96, 255, 173,0.8)"
+					        backgroundColor: "rgba(96, 255, 173, 0.2)",
+					        borderColor: "rgba(96, 255, 173, 1)",
+					        pointBackgroundColor: "rgba(96, 255, 173, 1)",
+					        pointBorderColor: "#fff",
+					        pointHoverBackgroundColor: "#fff",
+					        pointHoverBorderColor: "rgba(96, 255, 173,0.8)"
 					    },
 					    { // light grey
-					        fillColor: "rgba(220,220,220,0.2)",
-					        strokeColor: "rgba(220,220,220,1)",
-					        pointColor: "rgba(220,220,220,1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        pointHighlightStroke: "rgba(220,220,220,0.8)"
+					        backgroundColor: "rgba(220,220,220,0.2)",
+					        borderColor: "rgba(220,220,220,1)",
+					        pointBackgroundColor: "rgba(220,220,220,1)",
+					        pointBorderColor: "#fff",
+					        pointHoverBackgroundColor: "#fff",
+					        pointHoverBorderColor: "rgba(220,220,220,0.8)"
 					    },
 					    { // dark grey
-					        fillColor: "rgba(77,83,96,0.2)",
-					        strokeColor: "rgba(77,83,96,1)",
-					        pointColor: "rgba(77,83,96,1)",
-					        pointStrokeColor: "#fff",
-					        pointHighlightFill: "#fff",
-					        pointHighlightStroke: "rgba(77,83,96,1)"
+					        backgroundColor: "rgba(77,83,96,0.2)",
+					        borderColor: "rgba(77,83,96,1)",
+					        pointBackgroundColor: "rgba(77,83,96,1)",
+					        pointBorderColor: "#fff",
+					        pointHoverBackgroundColor: "#fff",
+					        pointHoverBorderColor: "rgba(77,83,96,1)"
 					    }
 					],
-					Pie: [
+					pie:["#4D5360","#FDB45C","#AF65FF","#FF282C","#60FFAD","#DCDCDC"],
+					doughnut:["#4D5360","#FDB45C","#AF65FF","#FF282C","#60FFAD","#DCDCDC"],
+					pie4:["#9FCC00","#FA6D21","#9a9a9a","#E9B145","#62A073","#FA605D"],
+					pie3:["rgba(77,83,96,0.2)","rgba(253,180,92,0.2)","rgba(175, 101, 255,0.2)","rgba(255, 40, 44, 0.2)",
+						"rgba(96, 255, 173, 0.2)","rgba(220,220,220,0.2)"],
+					pie2:[
+						{
+						    backgroundColor:[
+						    	"rgba(77,83,96,0.2)",
+								"rgba(253,180,92,0.2)",
+								"rgba(175, 101, 255,0.2)",
+								"rgba(255, 40, 44, 0.2)",
+								"rgba(96, 255, 173, 0.2)",
+								"rgba(220,220,220,0.2)"
+						    ],
+							borderColor:[
+						    	"rgba(77,83,96,0.5)",
+								"rgba(253,180,92,0.5)",
+								"rgba(175, 101, 255,0.5)",
+								"rgba(255, 40, 44, 0.5)",
+								"rgba(96, 255, 173, 0.5)",
+								"rgba(220,220,220,0.5)"
+						    ],
+							hoverBackgroundColor:[
+						    	"rgba(77,83,96,0.5)",
+								"rgba(253,180,92,0.5)",
+								"rgba(175, 101, 255,0.5)",
+								"rgba(255, 40, 44, 0.5)",
+								"rgba(96, 255, 173, 0.5)",
+								"rgba(220,220,220,0.5)"
+						    ],
+						}
+					],
+					test:[
+						"rgba(77,83,96,1)",
+						"rgba(253,180,92,1)",
+						"rgba(175, 101, 255,1)",
+						"rgba(255, 40, 44, 1)",
+						"rgba(96, 255, 173, 1)",
+						"rgba(77,83,96,1)",
+						"rgba(220,220,220,1)"
+					],
+					originalpie: [
 					    { // light blue
 				            highlightFill: "rgba(102, 175, 249, 0.2)",
 				            strokeColor: "rgba(102, 175, 249, 1)",
@@ -240,18 +287,62 @@
 					        pointStrokeColor: "#fff",
 					        pointHighlightFill: "#fff",
 					        pointHighlightStroke: "rgba(220,220,220,0.5)"
+					    }
+					],
+					doughnut2: [
+					    { // light blue
+					        backgroundColor: "rgba(77,83,96,0.2)",
+				            borderColor: "rgba(102, 175, 249, 1)",
+				            hoverBackgroundColor: "rgba(151,187,205,0.5)"
+					    },
+					    { // yellow
+					        backgroundColor: "rgba(253,180,92,0.2)",
+					        borderColor: "rgba(253,180,92,1)",
+					        hoverBackgroundColor: "rgba(253,180,92,0.5)"
+					    },
+					    { // purple
+					        backgroundColor: "rgba(175, 101, 255,0.2)",
+					        borderColor: "rgba(175, 101, 255,1)",
+					        hoverBackgroundColor: "rgba(175, 101, 255,0.5)"
+					    },
+					    { // red
+					        backgroundColor: "rgba(255, 40, 44, 0.2)",
+					        borderColor: "rgba(255, 40, 44, 1)",
+					        hoverBackgroundColor: "rgba(255, 40, 44, 0.5)"
+					    },
+					    { // light green
+					        backgroundColor: "rgba(96, 255, 173, 0.2)",
+					        borderColor: "rgba(96, 255, 173, 1)",
+					        hoverBackgroundColor: "rgba(96, 255, 173,0.5)"
+					    },
+					    { // dark grey
+					        backgroundColor: "rgba(77,83,96,0.2)",
+					        borderColor: "rgba(77,83,96,1)",
+					        hoverBackgroundColor: "rgba(77,83,96,0.5)"
+					    },
+					    { // light grey
+					        backgroundColor: "rgba(220,220,220,0.2)",
+					        borderColor: "rgba(220,220,220,1)",
+					        hoverBackgroundColor: "rgba(220,220,220,0.5)"
 					    },
 					]
 				}
 				
 				$scope.chart = {};
 				$scope.chart.options = {};
+			    $scope.chart.options = { legend: { display: false } };
+				
+				$scope.colours1 = ['#fff', '#3498DB', '#717984', '#F1C40F'];
+				
 
 				$scope.$on('create', function (event, chart) {
+					console.log("create graphs.js");
 			        $scope.chart = chart;
+					
 					$scope.chart.options.pointDotRadius = 0;
-					$scope.chart.legend = false;
 					$scope.chart.options.scaleBeginAtZero = false;
+					console.log($scope.colours[$scope.graph.type]);
+					//window.dispatchEvent(new Event('resize'));
 					//console.log($scope.chart);
 					//$scope.chart.options.showTooltips = false;
 			    });

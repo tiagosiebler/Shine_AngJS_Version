@@ -1,6 +1,6 @@
 {
   "author": "Tiago Siebler",
-  "name": "shine-angular",
+  "name": "AngularJS_Shine",
   "version": "1.0.0",
   "homepage": "https://github.com/tiagosiebler/Shine_AngJS_Version",
   "repository": {
@@ -8,6 +8,7 @@
     "url": "https://github.com/tiagosiebler/Shine_AngJS_Version.git"
   },
   "devDependencies": {
+    "bower": "^1.7.9",
     "browser-sync": "^2.14.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
@@ -22,11 +23,26 @@
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.2.0",
+    "gulp-ruby-sass": "^2.1.0",
     "gulp-sass": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "gulp-uglifycss": "^1.0.6",
     "gulp-zip": "^3.2.0",
-    "run-sequence": "^1.1.5"
+    "run-sequence": "^1.2.2"
+  },
+  "dependencies": {
+    "angular-animate": "^1.5.8",
+    "angular-chart.js": "^1.0.2",
+    "angular-cookies": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "angular-ui-bootstrap": "^2.1.2",
+    "animate.css": "^3.5.1",
+    "bootstrap": "^3.3.7",
+    "chart.js": "^2.2.1",
+    "jquery": "^3.1.0",
+    "ng-table": "^1.0.0",
+    "ngprogress": "^1.1.1",
+    "nprogress": "^0.2.0"
   }
 }

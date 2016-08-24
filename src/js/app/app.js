@@ -1,6 +1,5 @@
-(function() {
+(function() {	
     angular.module('serverCP', ['routes', 'ngProgress', 'Data', 'Graphs', 'graphsDirective', 'authCtrl','navbar','ordersTable','membersTable','activationsTable','logsCtrl','versionsCtrl','graphViewCtrl','reportingCtrl'])
-
 	.run(function($http, $httpParamSerializerJQLike) {
 		$http.defaults.transformRequest.unshift($httpParamSerializerJQLike);	  
 	})
@@ -12,6 +11,7 @@
 	
 	// check for session on start
     .run(function ($rootScope, $location, Data, ngProgressFactory) {
+		// rootscope functionality
         $rootScope.authenticated = false;
 		$rootScope.getLocation = function(){
 			var loc = $location.path();
@@ -38,13 +38,17 @@
 	            $location.path('/login');
 	        });
 	    }
+		
+		// progress bar
 		if(typeof window.progressBar == 'undefined'){
 			window.progressBar = ngProgressFactory.createInstance();
 		}
 		window.progressBar.updateQueue = function(value){
 			var startedNow = false;
+			var outputLog = false;
+			
 			if(typeof progressBar.queue == 'undefined'){
-				console.log("#### Creating queue");
+				if(outputLog) console.log("#### Creating queue");
 				progressBar.queue = 0;
 			}
 			if(progressBar.queue == 0) startedNow = true;
@@ -52,17 +56,26 @@
 			progressBar.queue = progressBar.queue + value;
 			// first if is for when queue goes from 0 to 1. Don't want to trigger when queue goes from 2 to 1.
 			if(startedNow) {
-				console.log("-- Progress - starting - queue " + progressBar.queue);
+				if(outputLog) console.log("-- Progress - starting - queue " + progressBar.queue);
 				progressBar.start();
 			}			
-			else if(progressBar.queue > 0 && progressBar.queue != 1){
+			else if(progressBar.queue > 1){
 				//debugger;
 				var newVal = (100 / progressBar.queue);
 				progressBar.set(newVal);
-				console.log("-- Progress - setting to value "+newVal + " queue " + progressBar.queue);
+				progressBar.start();
+				
+				if(outputLog) console.log("-- Progress - setting to value "+newVal + " queue " + progressBar.queue);
 			}
-			else if(progressBar.queue != 1){
-				console.log("-- Progress - completing - queue " + progressBar.queue);
+			else if(progressBar.queue == 1){
+				var newVal = 75;
+				progressBar.set(newVal);
+				progressBar.start();
+				
+				if(outputLog) console.log("-- Progress - setting to value "+newVal + " queue " + progressBar.queue);
+			}
+			else if(progressBar.queue == 0){
+				if(outputLog) console.log("-- Progress - completing - queue " + progressBar.queue);
 				progressBar.complete();
 			}
 		}

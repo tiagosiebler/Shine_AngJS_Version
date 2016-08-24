@@ -3,8 +3,16 @@
 	<ul class="list-inline panel-actions">
 		<li><a href="" id="panel-fullscreen" role="button" title="Toggle fullscreen" ng-click="fullscreen($event)"><i id="resize" class="glyphicon glyphicon-resize-full"></i></a></li>
 	</ul>
-	<canvas id="{{graph.type}}{{$index}}" class="chart chart-base" chart-data="graph.data"
-		chart-labels="graph.labels" chart-legend="{{graph.legend}}" chart-series="graph.series"
-		chart-click="onClick" chart-type="graph.type" chart-colours="colours[graph.type]" chart-options="chart.options">
+	<canvas 
+		id="{{graph.type}}{{$index}}" 
+		class="chart-base"
+		chart-type="graph.type"
+		chart-data="graph.data"
+		chart-labels="graph.labels" 
+		chart-legend="graph.legend" 
+		chart-series="graph.series"
+		chart-click="onClick" 
+		chart-colors="colours[graph.type]" 
+		chart-options="chart.options">
 	</canvas>
 </div>

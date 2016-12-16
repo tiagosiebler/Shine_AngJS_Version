@@ -1,4 +1,4 @@
-<div class="modal-header" ng-class="{deactivated: deactivated, blacklisted: blacklisted}">
+<div class="modal-header" ng-class="{'deactivated' : member.deactivated==1, 'blacklisted' : member.blacklisted==1}">
     <h3 class="modal-title">{{newLabel}}{{member.id}} - {{member.member_name}} 
 		<dummy class="" ng-show="isDeactivated()"><span class="glyphicon glyphicon-warning-sign"></span> deactivated <span class="glyphicon glyphicon-warning-sign"></span></dummy>
 		<dummy class="" ng-show="isBlacklisted()"><span class="glyphicon glyphicon-alert"></span> BLACKLISTED <span class="glyphicon glyphicon-alert"></span></dummy>
@@ -18,10 +18,12 @@
 								<table class="table table-striped table-condensed table-hover">
 									<tr><td> Member Since </td> <td> {{ member.member_since | cleanDt | date:'d MMM yyyy' }} </td></tr>
 									<tr><td> Expiry Date </td> <td> {{ member.expiry_date | cleanDt | date:'d MMM yyyy' }} </td></tr>
-									<tr><td> Orders </td> <td> {{ relatedOrders.length }} </td></tr>
+									<tr><td> Orders </td> <td> <a href="#/orders?page=1&amp;n=20&amp;payer_email={{member.member_email}}">{{ relatedOrders.length }}</a></td></tr>
+									<tr><td> CID Count </td> <td> {{ count.CID }} </td></tr>
+									
 									<tr><td> Last Purchase </td> <td> {{ member.last_purchase | cleanDt | date:'d MMM yyyy' }} </td></tr>
 									<tr><td> Estimated Revenue </td> <td> {{ member.extension_count * 4.60 | currency:'£' }} </td></tr>
-									<tr><td> Activations </td> <td> {{ member.activation_count }} </td></tr>
+									<tr><td> Activations </td> <td><a href="#/activations?page=1&amp;n=20&amp;email={{member.member_email}}">{{ member.activation_count }}</a></td></tr>
 									<tr><td> Last Activation </td> <td> {{ member.last_activation | cleanDt | date:'d MMM yyyy' }} </td></tr>
 								</table>
 							</div>
@@ -29,14 +31,27 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">License Details</div>
 							<div class="panel-body">
-								<div class="well well-sm">
-									Email: {{member.member_email}}
-									License Key: {{member.member_act_key}}
-								</div>
+								<table class="table table-condensed table-hover">
+									<tr><td> Account </td> <td> {{ member.member_email }} </td></tr>
+									<tr><td> License Key </td> <td> {{ member.member_act_key}} </td></tr>
+									<!--<tr><td> Rapportive</td> <td> {{ todo }} </td></tr>-->
+								</table>
 							</div>
 						</div>
 						<div class="panel panel-default">
-							<div class="panel-heading">Related Orders</div>
+							<div class="panel-heading">Order History</div>
+							<div class="panel-body">
+								Line/bar chart showing purchases monthly
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">Order Types</div>
+							<div class="panel-body">
+								Pie chart showing subs vs normal vs other purchases
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">Related Orders - <a href="#/orders?page=1&amp;n=20&amp;payer_email={{member.member_email}}">Details >></a></div>
 							<div class="panel-body">
 								<table class="table table-striped table-condensed table-hover">
 									<tr ng-repeat="relOrder in relatedOrders">
@@ -86,7 +101,7 @@
 							<tr><th><strong>Main CID</strong></th><td>{{member.primary_CID}}</td></tr>
 							<tr><th><strong>Max CIDs allowed</strong></th><td>{{member.max_CIDs}}</td></tr>
 							<tr><th><strong>MD5 Immune</strong></th><td>{{member.md5_immune}}</td></tr>
-							<tr><th><strong>Member IP</strong></th><td>{{member.member_IP}}</td></tr>
+							<tr><th><strong>Member IP</strong></th><td><a href="#/activations?page=1&amp;n=20&amp;ip={{member.member_IP}}">{{member.member_IP}}</a></td></tr>
 							<tr><th><strong>Activation Count</strong></th><td>{{member.activation_count}}</td></tr>
 							<tr><th><strong>Game Version</strong></th><td>{{member.version_game}}</td></tr>
 							<tr><th><strong>Tool Version</strong></th><td>{{member.version_tool}}</td></tr>
@@ -116,20 +131,10 @@
 								<span id="bodyHelpBlock" class="help-block">These notes are not visible to customers. Notes retrieved from member, not order</span>
 							</div>
 						</form>
+						<button class="btn btn-default pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="revertNotes()">Revert</button>
+						<button class="btn btn-success pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="saveNotes()">Save</button>
 					</div>
 				</div>
 			</div>
-
 	</div>
-	<!--<form>
-		<h3>General Stuff</h3>
-		<div class="form-group">
-			<label for="name">App Name</label>
-			<input type="text" class="form-control" name="name" id="name" ng-model="app.name">
-		</div>
-	</form>-->
-</div>
-<div class="modal-footer">
-<button class="btn btn-default pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="revertNotes()">Revert</button>
-<button class="btn btn-success pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="saveNotes()">Save</button>
 </div>

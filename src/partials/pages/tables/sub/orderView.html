@@ -14,14 +14,27 @@
 						<div class="panel-body">
 							<table class="table table-striped table-condensed table-hover">
 								<tr><td> Expiry Date </td> <td> {{ expiryDt }} </td></tr>
-								<tr><td> Activation Count </td> <td> {{ count.act }} </td></tr>
+								<tr><td> Orders </td> <td> <a href="#/orders?page=1&amp;n=20&amp;payer_email={{act.email}}">{{ relatedOrders.length }}</a></td></tr>
+								<tr><td> Activation Count </td> <td> <a href="#/activations?page=1&amp;n=20&amp;email={{order.payer_email}}">{{ count.act }}</a> </td></tr>
 								<tr><td> CID Count </td> <td> {{ count.CID }} </td></tr>
 								<!--<tr><td> Rapportive</td> <td> {{ todo }} </td></tr>-->
 							</table>
 						</div>
 					</div>
 					<div class="panel panel-default">
-						<div class="panel-heading">Related Orders</div>
+						<div class="panel-heading">Order History</div>
+						<div class="panel-body">
+							Line/bar chart showing purchases monthly
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">Order Types</div>
+						<div class="panel-body">
+							Pie chart showing subs vs normal vs other purchases
+						</div>
+					</div>
+					<div class="panel panel-default">
+							<div class="panel-heading">Related Orders - <a href="#/orders?page=1&amp;n=20&amp;payer_email={{order.payer_email}}">Details >></a></div>
 						<div class="panel-body">
 							<table class="table table-striped table-condensed table-hover">
 								<tr ng-repeat="relOrder in relatedOrders">
@@ -34,10 +47,11 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">License Details</div>
 						<div class="panel-body">
-							<div class="well well-sm">
-								Email: {{order.payer_email}}
-								License Key: {{order.license}}
-							</div>
+							<table class="table table-condensed table-hover">
+								<tr><td> Account </td> <td> {{ order.payer_email }} </td></tr>
+								<tr><td> License Key </td> <td> {{ order.license }} </td></tr>
+								<!--<tr><td> Rapportive</td> <td> {{ todo }} </td></tr>-->
+							</table>
 						</div>
 					</div>
 
@@ -91,12 +105,10 @@
 							<span id="bodyHelpBlock" class="help-block">These notes are not visible to customers. Notes retrieved from member, not order</span>
 						</div>
 					</form>
+					<button class="btn btn-default pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="revertNotes()">Revert</button>
+					<button class="btn btn-success pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="saveNotes()">Save</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="modal-footer">
-<button class="btn btn-default pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="revertNotes()">Revert</button>
-<button class="btn btn-success pull-right" type="button" ng-show="myForm.myComments.$dirty" ng-click="saveNotes()">Save</button>
 </div>

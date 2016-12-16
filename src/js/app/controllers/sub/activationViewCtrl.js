@@ -1,18 +1,17 @@
-angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFuncs'])
-	.controller('orderViewCtrl', ['$scope', '$timeout', 'Data', 'orderFuncs', '$routeParams','memberFuncs', function ($scope, $timeout, Data, orderFuncs, $routeParams, memberFuncs) {
+angular.module('activationViewCtrl', ['timeMathFltr','confirm'])
+	.controller('activationViewCtrl', ['$scope', '$timeout', 'Data', '$routeParams', '$uibModal', 'orderFuncs', 'memberFuncs', function ($scope, $timeout, Data, $routeParams, $uibModal, orderFuncs, memberFuncs) {
 
-		$scope.order = {};
+		$scope.act = {};
 		
-		$scope.order.id = "";
-		$scope.order.payer_email = "";
+		$scope.act.id = "";
 		
-		$scope.order.id = $routeParams.ref;
-		if(!$scope.order.id)//will later use blank ID to go to new order page
+		$scope.act.id = $routeParams.ref;
+		if(!$scope.act.id)//will later use blank ID to go to new order page
 			window.history.back();
 		
-		$scope.saveLabel = "Save Order"
+		$scope.saveLabel = "Save Activation"
 		$scope.saveAction = "save";
-		$scope.newLabel = "Viewing Order #";
+		$scope.newLabel = "Viewing Activation ID #";
 		
 		$scope.activatedAction = "Deactivate";
 		$scope.deactivatedMsg = '';
@@ -21,18 +20,18 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 	    $scope.save = function () {
 			var result = {
 				action: $scope.saveAction,
-				data: $scope.order
+				data: $scope.act
 			};
 			$uibModalInstance.close(result);
 	    };
 		$scope.resendConfirmation = function(){
-			orderFuncs.resendConfirmationEmail($scope.order.id,null);
+			orderFuncs.resendConfirmationEmail($scope.act.id,null);
 		}
 		$scope.regenerateKey = function(){
-			orderFuncs.regenerateKey($scope.order.id,null)
+			orderFuncs.regenerateKey($scope.act.id,null)
 			.then(function (results) {
 				// update vars on page
-				$scope.order.license 			= results.new_key;
+				$scope.act.license 			= results.new_key;
 				
 				Data.toastMsg(results.status,results.message);
 			});
@@ -43,34 +42,62 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 			else
 				Data.toastMsg("info","Reactivating...");
 			
-			orderFuncs.setDeactivated($scope.order.id,null,value)
+			orderFuncs.setDeactivated($scope.act.id,null,value)
 			.then(function (results){
 				if(results.status == 'success'){
 					$scope.deactivated = value;
 					if(value)
-						$scope.order.deactivated = 1;
+						$scope.act.deactivated = 1;
 					else
-						$scope.order.deactivated = 0;
+						$scope.act.deactivated = 0;
 					
 					$scope.isDeactivated();
 					Data.toastMsg("success","Saved");
 				}
 			});
 		}
-		$scope.getUserDetails = function(){			
-			if($scope.order.id){
-				if(!$scope.order.business){
+		$scope.getActivationDetails = function(){
+			//todo, need to make server-side GET handler for this
+			if($scope.act.id){
+				//console.log("getting order details");
+				Data.post('getActivationDetails', {
+					activationID: 	$scope.act.id,
+					action: 'get'
+				})
+				.then(function (results) {	
+					var message = JSON.parse(results.message);
+
+					var id = $scope.act.id;
+					$scope.act = message.columns;
+					$scope.act.id = id;
+					
+		            $scope.myComments 		= angular.copy($scope.act.comments);
+		            $scope.myForm.$setPristine();
+					
+					getAccountDetails();
+				});
+			}
+			else
+				getAccountDetails();
+				
+			
+		}
+		$scope.getUserDetails = function(){	
+			return false;
+					
+			if($scope.act.id){
+				if(!$scope.act.business){
 					//console.log("getting order details");
 					Data.post('getOrderDetails', {
-						orderID: 	$scope.order.id,
+						orderID: 	$scope.act.id,
 						action: 'get'
 					})
 					.then(function (results) {	
 						var message = JSON.parse(results.message);
 					
-						var id = $scope.order.id;
-						$scope.order = message.columns;
-						$scope.order.id = id;
+						var id = $scope.act.id;
+						$scope.act = message.columns;
+						$scope.act.id = id;
 						getAccountDetails();
 					});
 				}
@@ -108,7 +135,7 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 				var setDeactivated = true;
 			
 			Data.post('account', {
-				email: 			$scope.order.payer_email,
+				email: 			$scope.act.payer_email,
 				deactivated: 	setDeactivated,
 				action: 'updateActive'
 			})
@@ -122,11 +149,65 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 					$scope.deactivated = false;
 				//Data.toastMsg("success","Account details retrieved");
 			});
-		}
+		};
+		$scope.showRequest = function() {
+	        console.log('showing request');
+			var modalContents = this.act.activation_array;
+			
+			var modalInstance = $uibModal.open({
+				animation: true,
+				template: modalContents,
+				size: 'lg',
+				windowClass: 'app-modal-window',
+				resolve: {
+					app: function () {
+						return modalContents;
+					}
+				}
+			});
+
+			modalInstance.result.then(function (result) {
+				//$scope.selected = selectedItem;
+				//console.log("Caught "+result.action+" action.");
+				if(result.action === 'save'){
+					var resultData = result.data;
+				}
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+				}
+			);
+	    };
+		$scope.showResponse = function() {
+	        console.log('showing response');
+			var modalContents = this.act.json_array;
+			
+			var modalInstance = $uibModal.open({
+				animation: true,
+				template: modalContents,
+				size: 'lg',
+				windowClass: 'app-modal-window',
+				resolve: {
+					app: function () {
+						return modalContents;
+					}
+				}
+			});
+
+			modalInstance.result.then(function (result) {
+				//$scope.selected = selectedItem;
+				//console.log("Caught "+result.action+" action.");
+				if(result.action === 'save'){
+					var resultData = result.data;
+				}
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+				}
+			);			
+	    };
 		function getAccountDetails(){
 			Data.post('getAccountDetails', {
-				email: 		$scope.order.payer_email,
-				orderID: 	$scope.order.id,
+				email: 		$scope.act.email,
+				orderID: 	0,
 				action: 'get'
 			})
 			.then(function (results) {	
@@ -136,22 +217,9 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 				$scope.count.act 		= message.count.act;
 				$scope.count.CID 		= message.count.CID;
 				$scope.expiryDt			= message.member_details.expiry;
+				$scope.member_since		= message.member_details.member_since;
 				$scope.member_id		= message.member_details.member_id;
-
-				if(message.member_details.deactivated)
-					$scope.deactivated = true;
-				else
-					$scope.deactivated = false;
-				
-				if(message.member_details.blacklisted)
-					$scope.blacklisted = true;
-				else
-					$scope.blacklisted = false;
-				
-				$scope.comments			=	message.member_details.comments;
-	            $scope.myComments 		= angular.copy($scope.comments);
-	            $scope.myForm.$setPristine();
-				
+				console.log("getAccountDetails: ",message.member_details);
 				$scope.isDeactivated();
 				
 			    $timeout(resize, 0);
@@ -168,7 +236,7 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 			console.log("Saving notes: "+$scope.myComments);
 			
 			Data.post('updateComments', {
-				member_email: 	$scope.order.payer_email,
+				member_email: 	$scope.act.payer_email,
 				member_comments: $scope.myComments,
 				target: 'member',
 				action: 'update'
@@ -182,7 +250,7 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 			});
 		}
 		$scope.openOrder = function(orderID){
-			orderFuncs.viewOrder(orderID,$scope.orders);
+			orderFuncs.viewOrder(orderID,$scope.acts);
 		}
 
 		// catch moving away from page when changes need to be saved
@@ -213,9 +281,9 @@ angular.module('orderViewCtrl', ['timeMathFltr','confirm','orderFuncs','memberFu
 		$scope.onShow = function(){
 		    $timeout(resize, 0);
 			
-			if(!$scope.order.id){
+			if(!$scope.act.id){
 				// must be creating a new order
-				delete $scope.order.id;
+				delete $scope.act.id;
 
 				$scope.saveLabel = "Create Order";
 				$scope.saveAction = "saveNew";

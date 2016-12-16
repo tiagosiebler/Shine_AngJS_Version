@@ -13,7 +13,9 @@
 			obj.viewMember = function(memberID,members){
 				//console.log("view member function for ID: "+memberID);
 				var columns = {};
-
+				window.location.href = "#/member/"+memberID;
+				//modals take too much valuable screenspace for this, full page display instead
+				/*
 				if(members && memberID){
 					for (var i = 0, len = members.length; i < len; i++) {
 					    if (members[i].member_id === memberID) {
@@ -64,7 +66,7 @@
 					}
 				}, function () {
 					console.log('Modal dismissed at: ' + new Date());	
-				});
+				});*/
 			}
 			return obj;
 		}

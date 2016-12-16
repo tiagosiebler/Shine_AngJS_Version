@@ -1,5 +1,5 @@
 (function() {	
-    angular.module('serverCP', ['routes', 'ngProgress', 'Data', 'Graphs', 'graphsDirective', 'authCtrl','navbar','ordersTable','membersTable','activationsTable','logsCtrl','versionsCtrl','graphViewCtrl','reportingCtrl'])
+    angular.module('serverCP', ['routes', 'ngProgress', 'Data', 'Graphs', 'graphsDirective', 'authCtrl','navbar','ordersTable','orderViewCtrl','membersTable','activationsTable','logsCtrl','versionsCtrl','graphViewCtrl','reportingCtrl'])
 	.run(function($http, $httpParamSerializerJQLike) {
 		$http.defaults.transformRequest.unshift($httpParamSerializerJQLike);	  
 	})
@@ -15,7 +15,7 @@
         $rootScope.authenticated = false;
 		$rootScope.getLocation = function(){
 			var loc = $location.path();
-		
+			//debugger;
 			// remove first forward slash
 	        if (loc.indexOf('/') === 0){
 				loc = loc.replace('/','');
@@ -24,10 +24,9 @@
 	        if (loc.indexOf('/') === (loc.length - 1)){
 				loc = loc.replace('/','');
 			}
-			else{
 				// replace remaining slashes with separator
-				loc = loc.replace('/',' - ');
-			}
+			//loc.replace(new RegExp('/', 'g'), ' - ');
+			loc = loc.split('/').join(' - ')
 		
 			return 'CP - ' + loc.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
 		}
@@ -81,16 +80,18 @@
 		}
         $rootScope.$on("$locationChangeStart", function(event, next, current) { 
 	        console.log("location changing to: " + next); 
-			progressBar.updateQueue(+1);
+			//progressBar.updateQueue(+1);
 		});
         $rootScope.$on("$locationChangeSuccess", function(event, next, current) { 
 	        console.log("locationChangeSuccess: " + next); 
-			progressBar.updateQueue(-1);
+			//progressBar.updateQueue(-1);
 		});
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
 			//console.log("Route started");
 			//progressBar.updateQueue(+1);
+			
 			//todo server-side auth checks are there. Standard responses could provide this instead of proactively calling it
+			//deprecate this
             Data.get('getSessionState').then(function (results) {
                 if (typeof results.uid != 'undefined') {
                     $rootScope.authenticated = true;
@@ -122,7 +123,6 @@
                     }
                 }
             });
-			
         });
         $rootScope.$on('$routeChangeSuccess', function(){
 			//console.log("Route ended");

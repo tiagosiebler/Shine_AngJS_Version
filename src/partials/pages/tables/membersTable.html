@@ -22,7 +22,7 @@
 		<div class="table-responsive">
 			<table ng-table="tableParams" class="table table-striped table-condensed table-hover" show-filter="showFilter" ng-init="getMembers()">
 			    <tr ng-repeat="member in $data" ng-class="{dim:isExpired(member) , warning: member.deactivated==1, danger: member.blacklisted==1}">
-			        <td title="'Member'" filter="{ member_name: 'text'}" sortable="'member_name'" >{{member.member_name | limitTo:20}}</td>
+			        <td title="'Member'" filter="{ member_name: 'text'}" sortable="'member_name'" ><a href="" ng-click="openMember(member.member_id)">{{member.member_name | limitTo:20}}</a></td>
 			        <td title="'Email'" filter="{ member_email: 'text'}" sortable="'member_email'"><a href="mailto:{{member.member_email}}">{{member.member_email | limitTo:20}}</a></td>
 			        <td title="'Last Purchase'" filter="{ last_purchase: 'text'}" sortable="'last_purchase'">{{member.last_purchase | cleanDt | date:'d MMM yyyy'}}</td>
 			        <td title="'Expiry Date'" sortable="'expiry_date'">{{member.expiry_date | cleanDt | date:'d MMM yyyy'}}</td>

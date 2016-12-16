@@ -1,7 +1,7 @@
 (function() {
     angular.module('orderFuncs', ['Data','memberFuncs'])
 	
-	.factory("orderFuncs", ['Data', '$uibModal', 'memberFuncs', function(Data, $uibModal, memberFuncs){
+	.factory("orderFuncs", ['Data', 'memberFuncs', function(Data, memberFuncs){
 			var obj = {};
 			obj.get = function(params){	
 				console.log("-- get function");
@@ -77,6 +77,8 @@
 			obj.viewOrder = function(orderID,orders){
 				//console.log("view order function for ID: "+orderID);
 				var columns = {};
+				window.location.href = "#/order/"+orderID;
+				/*
 
 				if(orders && orderID){
 					for (var i = 0, len = orders.length; i < len; i++) {
@@ -94,7 +96,6 @@
 					// prepare for new orderID
 					orderID = 0;
 				}
-				
 				// open modal
 				var modalInstance = $uibModal.open({
 					animation: true,
@@ -128,6 +129,7 @@
 				}, function () {
 					console.log('Modal dismissed at: ' + new Date());	
 				});
+				//*/
 			};
 			return obj;
 		}

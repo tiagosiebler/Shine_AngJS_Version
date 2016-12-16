@@ -1,13 +1,15 @@
 angular.module('memberViewCtrl', ['timeMathFltr','confirm'])
-	.controller('memberViewCtrl', ['$scope', '$uibModalInstance', 'member', 'memberID', '$timeout', 'Data','orderFuncs', function ($scope, $uibModalInstance, member, memberID, $timeout, Data, orderFuncs) {
+	.controller('memberViewCtrl', ['$scope', '$timeout', 'Data','orderFuncs', '$routeParams', function ($scope, $timeout, Data, orderFuncs, $routeParams) {
 
 		// clone object, don't want to affect orginal. Use this later to send only changes to server, and not whole cluster. Smaller requests, more efficient.
-		$scope.member = member;
-		$scope.member.id = memberID;
+		$scope.member = {};
+		$scope.member.id = $routeParams.ref;
+		if(!$scope.member.id)//will later use blank ID to go to new order page
+			window.history.back();
 		
 		$scope.saveLabel = "Save Member"
 		$scope.saveAction = "save";
-		$scope.newLabel = "Member #";
+		$scope.newLabel = "Viewing Member #";
 		
 		$scope.activatedAction = "Deactivate";
 		$scope.blacklistedAction = "Lift Blacklist";
@@ -57,7 +59,10 @@ angular.module('memberViewCtrl', ['timeMathFltr','confirm'])
 					getAccountDetails();
 			}	
 		}
+		
 		$scope.isDeactivated = function(){
+			if(!$scope.member.deactivated) return false;
+						
 			if($scope.member.deactivated == 1){
 				$scope.activatedAction = "Reactivate";
 				$scope.deactivatedMsg = '<span class="glyphicon glyphicon-warning-sign"></span> deactivated <span class="glyphicon glyphicon-warning-sign"></span>';
@@ -180,18 +185,30 @@ angular.module('memberViewCtrl', ['timeMathFltr','confirm'])
 			});
 		}
 		$scope.openOrder = function(orderID){
-			var result = {
-				action: 'openingOrder',
-				data: orderID
-			};
 			orderFuncs.viewOrder(orderID,$scope.orders);
-			$uibModalInstance.close(result);
 		}
 
 	    $scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 	    };
 		
+		// catch moving away from page when changes need to be saved
+		$scope.$on('$locationChangeStart', function(event, reason, closed) {
+			console.log("location change caught");
+
+			var message = "You are about to leave the edit view, any unsaved changes will be lost. Are you sure?";
+			var shouldConfirm = false;
+			
+			if($scope.myForm.myComments.$dirty){
+				shouldConfirm = true;
+			}
+			
+			if (shouldConfirm && !confirm(message)) {
+				event.preventDefault();
+			}
+		});
+			
+		/*
 		// catch modal close actions and add warning with possibility to cancel
 		$scope.$on('modal.closing', function(event, reason, closed) {
 			var message = "You are about to leave the edit view. Uncaught reason. Are you sure?";
@@ -236,7 +253,7 @@ angular.module('memberViewCtrl', ['timeMathFltr','confirm'])
 			if (shouldConfirm && !confirm(message)) {
 				event.preventDefault();
 			}
-		});
+		});*/
 			  
 		$scope.autoExpand = function(e) {
 			var element = typeof e === 'object' ? e.target : document.getElementById(e);

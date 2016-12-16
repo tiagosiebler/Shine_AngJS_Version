@@ -69,7 +69,16 @@
 				
 						thumb.classList.add('panel-fullscreen');
 
-					    $scope.chart.options = { legend: { display: true } };
+					    $scope.chart.options = { 
+							legend: { display: true },
+								scales: {
+									yAxes: [{
+										ticks: {
+											suggestedMin: 0
+										}
+									}]
+								}
+						};
 						
 					}
 					// setting to small again
@@ -79,8 +88,16 @@
 				
 						thumb.classList.remove('panel-fullscreen');
 
-					    $scope.chart.options = { legend: { display: false } };
-				
+					    $scope.chart.options = { 
+							legend: { display: false },
+								scales: {
+									yAxes: [{
+										ticks: {
+											suggestedMin: 0
+										}
+									}]
+								}
+						};				
 				
 					}
 				    $scope.$emit('fullscreen_toggle', []);
@@ -330,7 +347,18 @@
 				
 				$scope.chart = {};
 				$scope.chart.options = {};
-			    $scope.chart.options = { legend: { display: false } };
+			    $scope.chart.options = { 
+					legend: { 
+						display: false 
+					},
+					scales: {
+						yAxes: [{
+							ticks: {
+								suggestedMin: 0
+							}
+						}]
+					}
+				};
 				
 				$scope.colours1 = ['#fff', '#3498DB', '#717984', '#F1C40F'];
 				
@@ -340,7 +368,6 @@
 			        $scope.chart = chart;
 					
 					$scope.chart.options.pointDotRadius = 0;
-					$scope.chart.options.scaleBeginAtZero = false;
 					console.log($scope.colours[$scope.graph.type]);
 					//window.dispatchEvent(new Event('resize'));
 					//console.log($scope.chart);
